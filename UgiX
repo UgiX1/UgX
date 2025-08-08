@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UgiX love TrollX - موقع تنزيل التطبيقات</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+        }
+
+```
+    body {
+        font-family: 'Arial', 'Tahoma', sans-serif;
+        background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
+        color: #fff;
+        overflow-x: hidden;
+        direction: rtl;
+        position: relative;
+        min-height: 100vh;
+    }
+
+    /* خلفية الفضاء المتحركة */
+    .space-background {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+        overflow: hidden;
+    }
+
+    .star {
+        position: absolute;
+        background: #fff;
+        border-radius: 50%;
+        animation: twinkle 2s infinite;
+    }
+
+    .star:nth-child(odd) {
+        animation-delay: 1s;
+    }
+
+    .shooting-star {
+        position: absolute;
+        width: 2px;
+        height: 2px;
+        background: linear-gradient(45deg, #fff, transparent);
+        animation: shoot 3s linear infinite;
+    }
+
+    @keyframes twinkle {
+        0%, 100% { opacity: 0.3; transform: scale(1); }
+        50% { opacity: 1; transform: scale(1.2); }
+    }
+
+    @keyframes shoot {
+        0% {
+            transform: translateX(-100px) translateY(-100px);
+            opacity: 1;
+        }
+        100% {
+            transform: translateX(1000px) translateY(1000px);
+            opacity: 0;
+        }
+    }
+
+    /* تحريك الخلفية */
+    @keyframes float {
+        0%, 100% { transform: translateY(0px); }
+        50% { transform: translateY(-20px); }
+    }
+
+    /* تأثيرات الدخول */
+    .fade-in {
+        opacity: 0;
+        transform: translateY(30px);
+        animation: fadeInUp 1s ease-out forwards;
+    }
+
+    @keyframes fadeInUp {
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* الحاوي الرئيسي */
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+        position: relative;
+        z-index: 10;
+    }
+
+    /* الشعار */
+    .logo {
+        text-align: center;
+        margin: 40px 0;
+        animation-delay: 0.2s;
+    }
+
+    .logo h1 {
+        font-size: clamp(2.5rem, 6vw, 4rem);
+        background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4);
+        background-size: 300% 300%;
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        animation: gradientShift 3s ease-in-out infinite, float 4s ease-in-out infinite;
+        font-weight: bold;
+        text-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+    }
+
+    @keyframes gradientShift {
+        0%, 100% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+    }
+
+    /* النبذة التعريفية */
+    .intro-section {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        border-radius: 20px;
+        padding: 30px;
+        margin: 30px 0;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        animation-delay: 0.4s;
+        text-align: center;
+    }
+
+    .intro-section h2 {
+        color: #4ecdc4;
+        margin-bottom: 15px;
+        font-size: 1.8rem;
+    }
+
+    .intro-section p {
+        line-height: 1.8;
+        font-size: 1.1rem;
+        color: #e0e0e0;
+    }
+
+    /* صفحة اختيار الجهاز */
+    .device-selection {
+        text-align: center;
+        margin: 50px 0;
+        animation-delay: 0.6s;
+    }
+
+    .device-selection h2 {
+        font-size: 2rem;
+        margin-bottom: 30px;
+        color: #4ecdc4;
+    }
+
+    .device-buttons {
+        display: flex;
+        justify-content: center;
+        gap: 30px;
+        flex-wrap: wrap;
+    }
+
+    .device-btn {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border: none;
+        padding: 20px 40px;
+        border-radius: 15px;
+        color: white;
+        font-size: 1.3rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+        min-width: 200px;
+    }
+
+    .device-btn:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 35px rgba(102, 126, 234, 0.5);
+        background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+    }
+
+    .device-btn .emoji {
+        font-size: 2rem;
+    }
+
+    /* صفحات التنزيل */
+    .download-section {
+        display: none;
+        animation-delay: 0.8s;
+    }
+
+    .download-section.active {
+        display: block;
+    }
+
+    .download-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 30px;
+        margin: 40px 0;
+    }
+
+    .download-card {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(15px);
+        border-radius: 20px;
+        padding: 30px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        transition: all 0.3s ease;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .download-card::before {
+        content: '';
+        position: absolute;
+        top: -2px;
+        left: -2px;
+        right: -2px;
+        bottom: -2px;
+        background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4);
+        border-radius: 22px;
+        z-index: -1;
+        animation: gradientShift 3s ease-in-out infinite;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+
+    .download-card:hover::before {
+        opacity: 1;
+    }
+
+    .download-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    }
+
+    .download-card h3 {
+        font-size: 1.5rem;
+        margin-bottom: 15px;
+        color: #4ecdc4;
+    }
+
+    .download-card p {
+        margin-bottom: 25px;
+        color: #e0e0e0;
+        line-height: 1.6;
+    }
+
+    /* أزرار التنزيل المحمية */
+    .download-btn {
+        background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+        border: none;
+        padding: 15px 30px;
+        border-radius: 10px;
+        color: white;
+        font-size: 1.1rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        text-decoration: none;
+        font-weight: bold;
+        box-shadow: 0 6px 20px rgba(255, 107, 107, 0.3);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .download-btn:hover {
+        background: linear-gradient(135deg, #ee5a6f 0%, #ff6b6b 100%);
+        transform: translateY(-2px);
+        box-shadow: 0 10px 30px rgba(255, 107, 107, 0.5);
+    }
+
+    .download-btn:active {
+        transform: translateY(0);
+    }
+
+    /* منع السياق والنسخ */
+    .download-btn {
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        pointer-events: auto;
+    }
+
+    /* زر الرجوع */
+    .back-btn {
+        background: linear-gradient(135deg, #45b7d1 0%, #96ceb4 100%);
+        border: none;
+        padding: 12px 25px;
+        border-radius: 8px;
+        color: white;
+        cursor: pointer;
+        margin-bottom: 30px;
+        transition: all 0.3s ease;
+        font-size: 1rem;
+    }
+
+    .back-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(69, 183, 209, 0.4);
+    }
+
+    /* تحسينات للهواتف */
+    @media (max-width: 768px) {
+        .container {
+            padding: 15px;
+        }
+        
+        .logo h1 {
+            font-size: 2.5rem;
+        }
+        
+        .device-buttons {
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .device-btn {
+            min-width: 250px;
+        }
+        
+        .download-grid {
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+        
+        .intro-section {
+            padding: 20px;
+        }
+        
+        .download-card {
+            padding: 20px;
+        }
+    }
+
+    /* تحسينات للتابلت */
+    @media (min-width: 769px) and (max-width: 1024px) {
+        .download-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+    /* تأثيرات خاصة */
+    .glow {
+        animation: glow 2s ease-in-out infinite alternate;
+    }
+
+    @keyframes glow {
+        from {
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+        }
+        to {
+            text-shadow: 0 0 30px rgba(78, 205, 196, 0.8), 0 0 40px rgba(78, 205, 196, 0.6);
+        }
+    }
+
+    /* تحميل منسق */
+    .loading {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: #0f0f23;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+        transition: opacity 1s ease;
+    }
+
+    .loading.hidden {
+        opacity: 0;
+        pointer-events: none;
+    }
+
+    .spinner {
+        width: 50px;
+        height: 50px;
+        border: 4px solid rgba(78, 205, 196, 0.3);
+        border-top: 4px solid #4ecdc4;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+</style>
+```
+
+</head>
+<body>
+    <!-- شاشة التحميل -->
+    <div class="loading" id="loading">
+        <div class="spinner"></div>
+    </div>
+
+```
+<!-- خلفية الفضاء -->
+<div class="space-background" id="spaceBackground"></div>
+
+<div class="container">
+    <!-- الشعار -->
+    <div class="logo fade-in">
+        <h1 class="glow">UgiX love TrollX</h1>
+    </div>
+
+    <!-- النبذة التعريفية -->
+    <div class="intro-section fade-in">
+        <h2>🚀 أدوات التطوير المتقدمة</h2>
+        <p>اكتشف مجموعة شاملة من الأدوات القوية للمطورين وعشاق التكنولوجيا. نوفر لك أحدث إصدارات دلتا وكرنل مع ميزات متطورة وأداء استثنائي. جميع التطبيقات محدثة باستمرار لضمان التوافق الكامل مع أحدث إصدارات الأنظمة.</p>
+    </div>
+
+    <!-- صفحة اختيار الجهاز -->
+    <div class="device-selection fade-in" id="deviceSelection">
+        <h2>اختر نوع جهازك</h2>
+        <div class="device-buttons">
+            <button class="device-btn" onclick="showDownloads('ios')">
+                <span class="emoji">📱</span>
+                <span>آيفون</span>
+            </button>
+            <button class="device-btn" onclick="showDownloads('android')">
+                <span class="emoji">🤖</span>
+                <span>أندرويد</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- صفحة تنزيلات الآيفون -->
+    <div class="download-section" id="iosDownloads">
+        <button class="back-btn" onclick="showDeviceSelection()">← رجوع</button>
+        <div class="download-grid">
+            <div class="download-card fade-in">
+                <h3>🔥 دلتا للآيفون</h3>
+                <p>أداة قوية للتطوير والاختبار مع واجهة سهلة الاستخدام وميزات متقدمة. يدعم جميع إصدارات iOS الحديثة.</p>
+                <a href="itms-services://?action=download-manifest&url=https%3A%2F%2Fdeltaios-executor.com%2FInstall21.plist" 
+                   class="download-btn protected-link"
+                   oncontextmenu="return false;"
+                   onselectstart="return false;"
+                   ondragstart="return false;">
+                    <span>📥</span>
+                    <span>تنزيل دلتا</span>
+                </a>
+            </div>
+            
+            <div class="download-card fade-in">
+                <h3>⚡ كرنل للآيفون</h3>
+                <p>منصة تطوير متطورة توفر أدوات احترافية للمبرمجين. مصمم خصيصاً لبيئة iOS مع دعم كامل للميزات المتقدمة.</p>
+                <a href="itms-services://?action=download-manifest&url=https://krnl-ios.com/Install2.plist" 
+                   class="download-btn protected-link"
+                   oncontextmenu="return false;"
+                   onselectstart="return false;"
+                   ondragstart="return false;">
+                    <span>⚡</span>
+                    <span>تنزيل كرنل</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- صفحة تنزيلات الأندرويد -->
+    <div class="download-section" id="androidDownloads">
+        <button class="back-btn" onclick="showDeviceSelection()">← رجوع</button>
+        <div class="download-grid">
+            <div class="download-card fade-in">
+                <h3>🔥 دلتا للأندرويد</h3>
+                <p>النسخة المطورة من دلتا مع دعم كامل لنظام Android. يوفر أدوات متقدمة وواجهة محسنة للمستخدمين.</p>
+                <a href="https://cdn.cdngloopup.cc/Delta-2.684.688.apk" 
+                   class="download-btn protected-link" 
+                   download
+                   oncontextmenu="return false;"
+                   onselectstart="return false;"
+                   ondragstart="return false;">
+                    <span>📥</span>
+                    <span>تنزيل دلتا</span>
+                </a>
+            </div>
+            
+            <div class="download-card fade-in">
+                <h3>⚡ كرنل للأندرويد</h3>
+                <p>أحدث إصدار من كرنل مُحسن للأندرويد. يتضمن ميزات حصرية وأداء فائق مع استقرار تام في العمل.</p>
+                <a href="https://krnl.webfiles.pro/file/krnl_release_2.684.688_2025.8.6_41.apk" 
+                   class="download-btn protected-link" 
+                   download
+                   oncontextmenu="return false;"
+                   onselectstart="return false;"
+                   ondragstart="return false;">
+                    <span>⚡</span>
+                    <span>تنزيل كرنل</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // إنشاء النجوم المتحركة
+    function createStars() {
+        const spaceBackground = document.getElementById('spaceBackground');
+        const numStars = 150;
+        
+        for (let i = 0; i < numStars; i++) {
+            const star = document.createElement('div');
+            star.classList.add('star');
+            
+            // موقع عشوائي
+            star.style.left = Math.random() * 100 + '%';
+            star.style.top = Math.random() * 100 + '%';
+            
+            // حجم عشوائي
+            const size = Math.random() * 3 + 1;
+            star.style.width = size + 'px';
+            star.style.height = size + 'px';
+            
+            // تأخير عشوائي للأنيميشن
+            star.style.animationDelay = Math.random() * 2 + 's';
+            star.style.animationDuration = (Math.random() * 3 + 2) + 's';
+            
+            spaceBackground.appendChild(star);
+        }
+        
+        // إنشاء النجوم الساقطة
+        setInterval(createShootingStar, 3000);
+    }
+
+    // إنشاء نجمة ساقطة
+    function createShootingStar() {
+        const spaceBackground = document.getElementById('spaceBackground');
+        const shootingStar = document.createElement('div');
+        shootingStar.classList.add('shooting-star');
+        
+        shootingStar.style.left = Math.random() * -100 + 'px';
+        shootingStar.style.top = Math.random() * -100 + 'px';
+        
+        spaceBackground.appendChild(shootingStar);
+        
+        // إزالة النجمة بعد انتهاء الأنيميشن
+        setTimeout(() => {
+            shootingStar.remove();
+        }, 3000);
+    }
+
+    // إظهار صفحة التنزيلات
+    function showDownloads(platform) {
+        document.getElementById('deviceSelection').style.display = 'none';
+        
+        if (platform === 'ios') {
+            document.getElementById('iosDownloads').classList.add('active');
+            document.getElementById('androidDownloads').classList.remove('active');
+        } else if (platform === 'android') {
+            document.getElementById('androidDownloads').classList.add('active');
+            document.getElementById('iosDownloads').classList.remove('active');
+        }
+        
+        // تأثير الظهور للعناصر الجديدة
+        setTimeout(() => {
+            const cards = document.querySelectorAll('.download-section.active .download-card');
+            cards.forEach((card, index) => {
+                card.style.animationDelay = (index * 0.2) + 's';
+                card.classList.add('fade-in');
+            });
+        }, 100);
+    }
+
+    // العودة لصفحة اختيار الجهاز
+    function showDeviceSelection() {
+        document.getElementById('deviceSelection').style.display = 'block';
+        document.getElementById('iosDownloads').classList.remove('active');
+        document.getElementById('androidDownloads').classList.remove('active');
+    }
+
+    // منع النقر بالزر الأيمن على الروابط المحمية
+    document.addEventListener('DOMContentLoaded', function() {
+        const protectedLinks = document.querySelectorAll('.protected-link');
+        
+        protectedLinks.forEach(link => {
+            // منع قائمة السياق
+            link.addEventListener('contextmenu', function(e) {
+                e.preventDefault();
+                return false;
+            });
+            
+            // منع التحديد
+            link.addEventListener('selectstart', function(e) {
+                e.preventDefault();
+                return false;
+            });
+            
+            // منع السحب
+            link.addEventListener('dragstart', function(e) {
+                e.preventDefault();
+                return false;
+            });
+            
+            // منع المفاتيح المختصرة
+            link.addEventListener('keydown', function(e) {
+                if (e.ctrlKey || e.metaKey) {
+                    e.preventDefault();
+                    return false;
+                }
+            });
+        });
+    });
+
+    // منع النقر بالزر الأيمن على الصفحة بالكامل
+    document.addEventListener('contextmenu', function(e) {
+        e.preventDefault();
+        return false;
+    });
+
+    // منع مفاتيح F12 و Ctrl+U
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'F12' || 
+            (e.ctrlKey && e.key === 'u') || 
+            (e.ctrlKey && e.shiftKey && e.key === 'I') ||
+            (e.ctrlKey && e.shiftKey && e.key === 'C')) {
+            e.preventDefault();
+            return false;
+        }
+    });
+
+    // تحميل الصفحة مع التأثيرات
+    window.addEventListener('load', function() {
+        // إنشاء النجوم
+        createStars();
+        
+        // إخفاء شاشة التحميل
+        setTimeout(() => {
+            document.getElementById('loading').classList.add('hidden');
+        }, 1500);
+        
+        // تطبيق تأثيرات الدخول
+        setTimeout(() => {
+            const fadeElements = document.querySelectorAll('.fade-in');
+            fadeElements.forEach((element, index) => {
+                element.style.animationDelay = (index * 0.2) + 's';
+            });
+        }, 2000);
+    });
+
+    // تحسين الأداء للأجهزة المحمولة
+    if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+        // تقليل عدد النجوم للأجهزة المحمولة
+        const style = document.createElement('style');
+        style.textContent = `
+            .star { animation-duration: 4s !important; }
+            .shooting-star { display: none; }
+        `;
+        document.head.appendChild(style);
+    }
+
+    // تأثير تتبع الماوس (للكمبيوتر فقط)
+    if (!(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent))) {
+        document.addEventListener('mousemove', function(e) {
+            const cursor = document.createElement('div');
+            cursor.style.position = 'fixed';
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+            cursor.style.width = '6px';
+            cursor.style.height = '6px';
+            cursor.style.backgroundColor = 'rgba(78, 205, 196, 0.6)';
+            cursor.style.borderRadius = '50%';
+            cursor.style.pointerEvents = 'none';
+            cursor.style.zIndex = '9999';
+            cursor.style.animation = 'fadeOut 1s ease-out forwards';
+            
+            document.body.appendChild(cursor);
+            
+            setTimeout(() => {
+                cursor.remove();
+            }, 1000);
+        });
+        
+        const fadeOutKeyframes = `
+            @keyframes fadeOut {
+                to {
+                    opacity: 0;
+                    transform: scale(2);
+                }
+            }
+        `;
+        
+        const style = document.createElement('style');
+        style.textContent = fadeOutKeyframes;
+        document.head.appendChild(style);
+    }
+</script>
+```
+
+</body>
+</html>
