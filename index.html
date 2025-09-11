@@ -4,8 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UgiX love TrollX - تحميل أدوات الاختراق الاحترافية</title>
-    <meta name="description" content="تحميل أفضل أدوات الاختراق والتطوير للآيفون والأندرويد - دلتا وكرنل">
+    <title>Delta & Krnl Executor - التحديث الأحدث</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚀</text></svg>">
     <style>
         * {
             margin: 0;
@@ -15,23 +15,23 @@
 
 ```
     body {
-        font-family: 'Cairo', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        background: #000;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background: #0a0a0a;
         color: #fff;
         overflow-x: hidden;
-        direction: rtl;
-        text-align: right;
+        min-height: 100vh;
+        position: relative;
     }
 
     /* خلفية الفضاء المتحركة */
-    .space-background {
+    .space-bg {
         position: fixed;
         top: 0;
         left: 0;
         width: 100%;
         height: 100%;
         z-index: -1;
-        background: radial-gradient(ellipse at center, #1a1a2e 0%, #16213e 50%, #0f0f23 100%);
+        background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
     }
 
     .stars {
@@ -44,94 +44,98 @@
         position: absolute;
         background: #fff;
         border-radius: 50%;
-        animation: twinkle 3s ease-in-out infinite alternate;
+        animation: twinkle 2s infinite alternate;
     }
 
     @keyframes twinkle {
-        0% { opacity: 0.3; transform: scale(0.8); }
+        0% { opacity: 0.3; transform: scale(1); }
         100% { opacity: 1; transform: scale(1.2); }
     }
 
-    @keyframes float {
-        0%, 100% { transform: translateY(0px); }
-        50% { transform: translateY(-20px); }
-    }
-
-    /* شعار الموقع */
-    .logo {
-        text-align: center;
-        padding: 2rem 0;
-        animation: fadeInDown 1.5s ease-out;
-    }
-
-    .logo h1 {
-        font-size: 3.5rem;
-        font-weight: bold;
-        background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4, #ffeaa7);
-        background-size: 300% 300%;
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        animation: gradientShift 3s ease-in-out infinite;
-        text-shadow: 0 0 30px rgba(255, 107, 107, 0.5);
-    }
-
-    @keyframes gradientShift {
-        0%, 100% { background-position: 0% 50%; }
-        50% { background-position: 100% 50%; }
-    }
-
-    @keyframes fadeInDown {
-        0% { opacity: 0; transform: translateY(-50px); }
-        100% { opacity: 1; transform: translateY(0); }
-    }
-
-    /* الحاوية الرئيسية */
+    /* الحاوي الرئيسي */
     .container {
         max-width: 1200px;
         margin: 0 auto;
-        padding: 0 20px;
+        padding: 20px;
+        position: relative;
+        z-index: 1;
     }
 
-    /* صفحة اختيار الجهاز */
-    .device-selection {
+    /* الهيدر */
+    .header {
         text-align: center;
-        padding: 3rem 0;
-        animation: fadeInUp 1s ease-out 0.5s both;
+        padding: 40px 0;
+        animation: slideDown 1s ease-out;
     }
 
-    .device-selection h2 {
-        font-size: 2.5rem;
-        margin-bottom: 1rem;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    .logo {
+        font-size: 3.5rem;
+        font-weight: bold;
+        background: linear-gradient(45deg, #ff0040, #0080ff, #ff0040);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
+        background-clip: text;
+        animation: logoGlow 3s ease-in-out infinite;
+        text-shadow: 0 0 30px rgba(255, 0, 64, 0.5);
     }
 
-    .device-selection p {
-        font-size: 1.3rem;
-        margin-bottom: 3rem;
+    @keyframes logoGlow {
+        0%, 100% { filter: brightness(1); }
+        50% { filter: brightness(1.3); }
+    }
+
+    .subtitle {
+        font-size: 1.2rem;
+        margin-top: 10px;
         color: #ccc;
+        animation: fadeIn 1.5s ease-in;
     }
 
-    .device-buttons {
+    /* تبديل اللغة */
+    .lang-toggle {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        background: rgba(255, 255, 255, 0.1);
+        border: 2px solid #0080ff;
+        color: #fff;
+        padding: 10px 20px;
+        border-radius: 25px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-weight: bold;
+        animation: pulse 2s infinite;
+    }
+
+    .lang-toggle:hover {
+        background: #0080ff;
+        transform: scale(1.05);
+        box-shadow: 0 0 20px rgba(0, 128, 255, 0.5);
+    }
+
+    /* اختيار الجهاز */
+    .device-selector {
         display: flex;
         justify-content: center;
-        gap: 2rem;
-        flex-wrap: wrap;
+        gap: 30px;
+        margin: 60px 0;
+        animation: slideUp 1s ease-out 0.3s both;
     }
 
     .device-btn {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        background: linear-gradient(135deg, #ff0040, #cc0033);
         border: none;
-        padding: 1.5rem 3rem;
-        border-radius: 20px;
-        font-size: 1.5rem;
-        color: white;
+        color: #fff;
+        padding: 20px 40px;
+        font-size: 1.3rem;
+        border-radius: 15px;
         cursor: pointer;
-        transition: all 0.3s ease;
-        box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+        transition: all 0.4s ease;
         position: relative;
         overflow: hidden;
+        font-weight: bold;
+        text-transform: uppercase;
+        letter-spacing: 1px;
     }
 
     .device-btn::before {
@@ -141,7 +145,7 @@
         left: -100%;
         width: 100%;
         height: 100%;
-        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
         transition: left 0.5s;
     }
 
@@ -151,480 +155,434 @@
 
     .device-btn:hover {
         transform: translateY(-5px) scale(1.05);
-        box-shadow: 0 20px 40px rgba(102, 126, 234, 0.5);
+        box-shadow: 0 15px 30px rgba(255, 0, 64, 0.4);
     }
 
-    /* صفحات التنزيل */
-    .download-page {
+    .device-btn.android {
+        background: linear-gradient(135deg, #4CAF50, #2E7D32);
+    }
+
+    .device-btn.android:hover {
+        box-shadow: 0 15px 30px rgba(76, 175, 80, 0.4);
+    }
+
+    /* روابط التنزيل */
+    .downloads {
         display: none;
-        animation: fadeInUp 1s ease-out;
+        animation: fadeInUp 0.8s ease-out;
+        margin-top: 40px;
     }
 
-    .download-page.active {
+    .downloads.active {
         display: block;
     }
 
-    .back-btn {
-        background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
-        border: none;
-        padding: 1rem 2rem;
-        border-radius: 15px;
-        font-size: 1.1rem;
-        color: white;
-        cursor: pointer;
-        margin-bottom: 2rem;
-        transition: all 0.3s ease;
-    }
-
-    .back-btn:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 10px 25px rgba(255, 107, 107, 0.4);
-    }
-
-    .downloads-grid {
+    .download-grid {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-        gap: 2rem;
-        margin: 2rem 0;
+        gap: 30px;
+        margin-top: 40px;
     }
 
     .download-card {
         background: rgba(255, 255, 255, 0.05);
+        border: 2px solid transparent;
         border-radius: 20px;
-        padding: 2rem;
+        padding: 30px;
         text-align: center;
-        backdrop-filter: blur(10px);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        transition: all 0.3s ease;
         position: relative;
         overflow: hidden;
+        transition: all 0.4s ease;
+        backdrop-filter: blur(10px);
     }
 
     .download-card::before {
         content: '';
         position: absolute;
-        top: -50%;
-        left: -50%;
-        width: 200%;
-        height: 200%;
-        background: conic-gradient(from 0deg, transparent, rgba(102, 126, 234, 0.1), transparent);
-        animation: rotate 4s linear infinite;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(45deg, #ff0040, #0080ff);
+        opacity: 0;
+        transition: opacity 0.3s;
         z-index: -1;
     }
 
-    @keyframes rotate {
-        100% { transform: rotate(360deg); }
+    .download-card:hover::before {
+        opacity: 0.1;
     }
 
     .download-card:hover {
         transform: translateY(-10px);
-        box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
-        border-color: rgba(102, 126, 234, 0.5);
+        border-color: #0080ff;
+        box-shadow: 0 20px 40px rgba(0, 128, 255, 0.3);
     }
 
-    .download-card h3 {
-        font-size: 1.8rem;
-        margin-bottom: 1rem;
-        background: linear-gradient(135deg, #ffd89b 0%, #19547b 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
+    .app-icon {
+        font-size: 4rem;
+        margin-bottom: 20px;
+        animation: bounce 2s infinite;
     }
 
-    .download-card p {
+    @keyframes bounce {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-10px); }
+    }
+
+    .app-name {
+        font-size: 1.5rem;
+        font-weight: bold;
+        margin-bottom: 15px;
+        color: #fff;
+    }
+
+    .app-version {
         color: #ccc;
-        margin-bottom: 2rem;
-        line-height: 1.6;
+        margin-bottom: 25px;
+        font-size: 0.9rem;
     }
 
     .download-btn {
-        background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+        background: linear-gradient(135deg, #0080ff, #0056cc);
         border: none;
-        padding: 1.2rem 2.5rem;
-        border-radius: 15px;
-        font-size: 1.2rem;
-        color: white;
+        color: #fff;
+        padding: 15px 30px;
+        font-size: 1.1rem;
+        border-radius: 10px;
         cursor: pointer;
         transition: all 0.3s ease;
-        text-decoration: none;
-        display: inline-block;
         position: relative;
         overflow: hidden;
+        font-weight: bold;
+        width: 100%;
+        user-select: none;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
     }
 
-    .download-btn::before {
+    .download-btn::after {
         content: '';
         position: absolute;
         top: 50%;
         left: 50%;
         width: 0;
         height: 0;
-        background: rgba(255, 255, 255, 0.2);
+        background: rgba(255, 255, 255, 0.3);
         border-radius: 50%;
+        transition: all 0.3s ease;
         transform: translate(-50%, -50%);
-        transition: width 0.3s ease, height 0.3s ease;
     }
 
-    .download-btn:hover::before {
+    .download-btn:hover::after {
         width: 300px;
         height: 300px;
     }
 
     .download-btn:hover {
-        transform: translateY(-3px) scale(1.05);
-        box-shadow: 0 15px 30px rgba(76, 175, 80, 0.4);
+        transform: scale(1.03);
+        box-shadow: 0 10px 25px rgba(0, 128, 255, 0.4);
     }
 
-    /* قسم النبذة التعريفية */
-    .about-section {
-        margin: 4rem 0;
-        padding: 3rem;
-        background: rgba(255, 255, 255, 0.03);
-        border-radius: 25px;
-        backdrop-filter: blur(15px);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        animation: fadeInUp 1s ease-out 1s both;
+    .download-btn:active {
+        transform: scale(0.98);
     }
 
-    .about-section h2 {
-        font-size: 2.3rem;
-        margin-bottom: 2rem;
+    /* الفوتر */
+    .footer {
         text-align: center;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
+        margin-top: 80px;
+        padding: 30px 0;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        animation: fadeIn 2s ease-in;
     }
 
-    .about-section p {
-        font-size: 1.2rem;
-        line-height: 2;
-        color: #ddd;
+    .warning {
+        background: rgba(255, 204, 0, 0.1);
+        border: 1px solid #ffcc00;
+        border-radius: 10px;
+        padding: 20px;
+        margin: 30px 0;
+        color: #ffcc00;
         text-align: center;
-        margin-bottom: 1.5rem;
+        animation: warningPulse 3s infinite;
+    }
+
+    @keyframes warningPulse {
+        0%, 100% { box-shadow: 0 0 10px rgba(255, 204, 0, 0.2); }
+        50% { box-shadow: 0 0 20px rgba(255, 204, 0, 0.4); }
+    }
+
+    /* الأنيميشن */
+    @keyframes slideDown {
+        from { opacity: 0; transform: translateY(-50px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes slideUp {
+        from { opacity: 0; transform: translateY(50px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
     }
 
     @keyframes fadeInUp {
-        0% { opacity: 0; transform: translateY(30px); }
-        100% { opacity: 1; transform: translateY(0); }
+        from { opacity: 0; transform: translateY(30px); }
+        to { opacity: 1; transform: translateY(0); }
     }
 
-    /* التجاوب مع الشاشات الصغيرة */
+    @keyframes pulse {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.05); }
+    }
+
+    /* تصميم متجاوب */
     @media (max-width: 768px) {
-        .logo h1 {
-            font-size: 2.5rem;
-        }
-
-        .device-selection h2 {
-            font-size: 2rem;
-        }
-
-        .device-selection p {
-            font-size: 1.1rem;
-        }
-
-        .device-buttons {
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .device-btn {
-            width: 100%;
-            max-width: 300px;
-        }
-
-        .downloads-grid {
-            grid-template-columns: 1fr;
-        }
-
-        .about-section {
-            margin: 2rem 0;
-            padding: 2rem 1rem;
-        }
-
-        .about-section h2 {
-            font-size: 1.8rem;
-        }
-
-        .about-section p {
-            font-size: 1rem;
-        }
+        .logo { font-size: 2.5rem; }
+        .device-selector { flex-direction: column; align-items: center; gap: 20px; }
+        .device-btn { width: 250px; }
+        .download-grid { grid-template-columns: 1fr; }
+        .lang-toggle { position: relative; top: 0; right: 0; margin-bottom: 20px; }
     }
 
-    @media (max-width: 480px) {
-        .logo h1 {
-            font-size: 2rem;
-        }
-
-        .device-btn {
-            padding: 1.2rem 2rem;
-            font-size: 1.3rem;
-        }
-
-        .download-card {
-            padding: 1.5rem;
-        }
-
-        .download-btn {
-            padding: 1rem 2rem;
-            font-size: 1.1rem;
-        }
-    }
-
-    /* منع التحديد والنسخ */
-    .no-select {
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        user-select: none;
-        -webkit-touch-callout: none;
-        -webkit-tap-highlight-color: transparent;
-    }
-
-    /* تحسينات إضافية للأداء */
-    .download-btn, .device-btn, .back-btn {
-        will-change: transform;
-        backface-visibility: hidden;
-    }
-
-    /* تأثير التحميل */
-    .loading {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: #000;
-        z-index: 9999;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        transition: opacity 0.5s ease;
-    }
-
-    .loading.hide {
-        opacity: 0;
-        pointer-events: none;
-    }
-
-    .loader {
-        width: 50px;
-        height: 50px;
-        border: 3px solid rgba(102, 126, 234, 0.3);
-        border-top: 3px solid #667eea;
-        border-radius: 50%;
-        animation: spin 1s linear infinite;
-    }
-
-    @keyframes spin {
-        0% { transform: rotate(0deg); }
-        100% { transform: rotate(360deg); }
-    }
+    /* إخفاء النصوص */
+    .hidden { display: none; }
 </style>
 ```
 
 </head>
 <body>
-    <!-- شاشة التحميل -->
-    <div class="loading" id="loading">
-        <div class="loader"></div>
+    <div class="space-bg">
+        <div class="stars" id="stars"></div>
     </div>
 
 ```
-<!-- خلفية الفضاء -->
-<div class="space-background">
-    <div class="stars" id="stars"></div>
-</div>
-
-<!-- المحتوى الرئيسي -->
 <div class="container">
-    <!-- الشعار -->
-    <div class="logo">
-        <h1 class="no-select">UgiX love TrollX</h1>
+    <button class="lang-toggle" onclick="toggleLanguage()">
+        <span class="ar-text">English</span>
+        <span class="en-text hidden">العربية</span>
+    </button>
+
+    <header class="header">
+        <h1 class="logo">
+            <span class="ar-text">Delta & Krnl</span>
+            <span class="en-text hidden">Delta & Krnl</span>
+        </h1>
+        <p class="subtitle">
+            <span class="ar-text">أقوى منفذ للألعاب - التحديث الأحدث 2025</span>
+            <span class="en-text hidden">Most Powerful Game Executor - Latest Update 2025</span>
+        </p>
+    </header>
+
+    <div class="device-selector">
+        <button class="device-btn android" onclick="showDownloads('android')">
+            📱 <span class="ar-text">أندرويد</span><span class="en-text hidden">Android</span>
+        </button>
+        <button class="device-btn" onclick="showDownloads('ios')">
+            🍎 <span class="ar-text">آيفون</span><span class="en-text hidden">iPhone</span>
+        </button>
     </div>
 
-    <!-- صفحة اختيار الجهاز -->
-    <div class="device-selection" id="deviceSelection">
-        <h2 class="no-select">اختر نوع جهازك</h2>
-        <p class="no-select">قم بتحديد نوع جهازك لعرض روابط التحميل المناسبة</p>
-        <div class="device-buttons">
-            <button class="device-btn no-select" onclick="showDownloads('ios')">
-                📱 آيفون (iOS)
-            </button>
-            <button class="device-btn no-select" onclick="showDownloads('android')">
-                🤖 أندرويد (Android)
-            </button>
+    <!-- تنزيلات الأندرويد -->
+    <div class="downloads" id="android-downloads">
+        <div class="download-grid">
+            <div class="download-card">
+                <div class="app-icon">🔺</div>
+                <h3 class="app-name">
+                    <span class="ar-text">دلتا إكزيكيوتر</span>
+                    <span class="en-text hidden">Delta Executor</span>
+                </h3>
+                <p class="app-version">v2.684.688</p>
+                <button class="download-btn" onclick="downloadApp('delta-android')">
+                    <span class="ar-text">تحميل الآن</span>
+                    <span class="en-text hidden">Download Now</span>
+                </button>
+            </div>
+            <div class="download-card">
+                <div class="app-icon">⚡</div>
+                <h3 class="app-name">
+                    <span class="ar-text">كرنل إكزيكيوتر</span>
+                    <span class="en-text hidden">Krnl Executor</span>
+                </h3>
+                <p class="app-version">v2.684.688</p>
+                <button class="download-btn" onclick="downloadApp('krnl-android')">
+                    <span class="ar-text">تحميل الآن</span>
+                    <span class="en-text hidden">Download Now</span>
+                </button>
+            </div>
         </div>
     </div>
 
-    <!-- صفحة تحميل الآيفون -->
-    <div class="download-page" id="iosPage">
-        <button class="back-btn no-select" onclick="showDeviceSelection()">← العودة</button>
-        <div class="downloads-grid">
+    <!-- تنزيلات الآيفون -->
+    <div class="downloads" id="ios-downloads">
+        <div class="download-grid">
             <div class="download-card">
-                <h3 class="no-select">🔥 دلتا للآيفون</h3>
-                <p class="no-select">أداة تطوير واختبار متقدمة للآيفون مع واجهة سهلة الاستخدام ومميزات احترافية</p>
-                <a href="itms-services://?action=download-manifest&url=https%3A%2F%2Fdeltaios-executor.com%2FInstall21.plist" 
-                   class="download-btn no-select">تحميل دلتا 📱</a>
+                <div class="app-icon">🔺</div>
+                <h3 class="app-name">
+                    <span class="ar-text">دلتا إكزيكيوتر</span>
+                    <span class="en-text hidden">Delta Executor</span>
+                </h3>
+                <p class="app-version">v21.0</p>
+                <button class="download-btn" onclick="downloadApp('delta-ios')">
+                    <span class="ar-text">تثبيت الآن</span>
+                    <span class="en-text hidden">Install Now</span>
+                </button>
             </div>
             <div class="download-card">
-                <h3 class="no-select">⚡ كرنل للآيفون</h3>
-                <p class="no-select">أداة قوية للتطوير والاختبار مع إمكانيات متقدمة وأداء عالي للآيفون</p>
-                <a href="itms-services://?action=download-manifest&url=https://krnl-ios.com/Install2.plist" 
-                   class="download-btn no-select">تحميل كرنل ⚡</a>
-            </div>
-        </div>
-    </div>
-
-    <!-- صفحة تحميل الأندرويد -->
-    <div class="download-page" id="androidPage">
-        <button class="back-btn no-select" onclick="showDeviceSelection()">← العودة</button>
-        <div class="downloads-grid">
-            <div class="download-card">
-                <h3 class="no-select">🔥 دلتا للأندرويد</h3>
-                <p class="no-select">أداة تطوير واختبار متقدمة للأندرويد مع واجهة سهلة الاستخدام ومميزات احترافية</p>
-                <a href="https://updowncontent.com/file/Delta-2.686.866.apk" 
-                   class="download-btn no-select">تحميل دلتا 🤖</a>
-            </div>
-            <div class="download-card">
-                <h3 class="no-select">⚡ كرنل للأندرويد</h3>
-                <p class="no-select">أداة قوية للتطوير والاختبار مع إمكانيات متقدمة وأداء عالي للأندرويد</p>
-                <a href="https://krnl.webfiles.pro/file/krnl_release_2.684.688_2025.8.6_41.apk" 
-                   class="download-btn no-select">تحميل كرنل ⚡</a>
+                <div class="app-icon">⚡</div>
+                <h3 class="app-name">
+                    <span class="ar-text">كرنل إكزيكيوتر</span>
+                    <span class="en-text hidden">Krnl Executor</span>
+                </h3>
+                <p class="app-version">iOS Version</p>
+                <button class="download-btn" onclick="downloadApp('krnl-ios')">
+                    <span class="ar-text">تثبيت الآن</span>
+                    <span class="en-text hidden">Install Now</span>
+                </button>
             </div>
         </div>
     </div>
 
-    <!-- قسم النبذة التعريفية -->
-    <div class="about-section">
-        <h2 class="no-select">عن أدواتنا الاحترافية</h2>
-        <p class="no-select">
-            نقدم لكم أحدث وأقوى أدوات التطوير والاختبار للهواتف الذكية، مصممة خصيصاً لتلبية احتياجات المطورين والمختبرين المحترفين.
-        </p>
-        <p class="no-select">
-            أدواتنا توفر واجهة سهلة الاستخدام مع إمكانيات متقدمة، مما يجعلها الخيار الأمثل للمحترفين في مجال التطوير والاختبار.
-        </p>
-        <p class="no-select">
-            جميع الأدوات محدثة باستمرار لضمان التوافق مع أحدث إصدارات الأنظمة والحصول على أفضل أداء ممكن.
-        </p>
+    <div class="warning">
+        <span class="ar-text">⚠️ تأكد من تمكين "المصادر غير المعروفة" في إعدادات الأندرويد قبل التثبيت</span>
+        <span class="en-text hidden">⚠️ Make sure to enable "Unknown Sources" in Android settings before installation</span>
     </div>
+
+    <footer class="footer">
+        <p>
+            <span class="ar-text">© 2025 Delta & Krnl Executor - جميع الحقوق محفوظة</span>
+            <span class="en-text hidden">© 2025 Delta & Krnl Executor - All Rights Reserved</span>
+        </p>
+    </footer>
 </div>
 
 <script>
+    // روابط التنزيل المركزية
+    const downloadLinks = {
+        'delta-android': 'https://updowncontent.com/file/Delta-2.689.880.apk',
+        'krnl-android': 'https://krnl.webfiles.pro/file/krnl_release_2.689.880_2025.9.7_47.apk',
+        'delta-ios': 'itms-services://?action=download-manifest&url=https%3A%2F%2Fdeltaios-executor.com%2FInstall21.plist',
+        'krnl-ios': 'itms-services://?action=download-manifest&url=https://krnl-ios.com/Install2.plist'
+    };
+
     // إنشاء النجوم المتحركة
     function createStars() {
         const starsContainer = document.getElementById('stars');
-        const numStars = 150;
-        
-        for (let i = 0; i < numStars; i++) {
+        const starCount = 150;
+
+        for (let i = 0; i < starCount; i++) {
             const star = document.createElement('div');
             star.className = 'star';
             
-            // موقع عشوائي
-            star.style.left = Math.random() * 100 + '%';
-            star.style.top = Math.random() * 100 + '%';
-            
-            // حجم عشوائي
             const size = Math.random() * 3 + 1;
             star.style.width = size + 'px';
             star.style.height = size + 'px';
-            
-            // تأخير عشوائي للأنيميشن
-            star.style.animationDelay = Math.random() * 3 + 's';
+            star.style.left = Math.random() * 100 + '%';
+            star.style.top = Math.random() * 100 + '%';
+            star.style.animationDelay = Math.random() * 2 + 's';
             star.style.animationDuration = (Math.random() * 3 + 2) + 's';
             
             starsContainer.appendChild(star);
         }
     }
 
-    // عرض صفحة التحميل المناسبة
+    // عرض روابط التنزيل
     function showDownloads(deviceType) {
-        document.getElementById('deviceSelection').style.display = 'none';
-        
-        if (deviceType === 'ios') {
-            document.getElementById('iosPage').classList.add('active');
-        } else if (deviceType === 'android') {
-            document.getElementById('androidPage').classList.add('active');
-        }
-    }
-
-    // العودة لصفحة اختيار الجهاز
-    function showDeviceSelection() {
-        document.getElementById('iosPage').classList.remove('active');
-        document.getElementById('androidPage').classList.remove('active');
-        document.getElementById('deviceSelection').style.display = 'block';
-    }
-
-    // منع النقر المطول والقائمة السياق
-    document.addEventListener('contextmenu', function(e) {
-        e.preventDefault();
-    });
-
-    document.addEventListener('selectstart', function(e) {
-        e.preventDefault();
-    });
-
-    // منع بعض اختصارات لوحة المفاتيح
-    document.addEventListener('keydown', function(e) {
-        // منع Ctrl+U (عرض المصدر)
-        if (e.ctrlKey && e.keyCode === 85) {
-            e.preventDefault();
-        }
-        // منع Ctrl+S (حفظ)
-        if (e.ctrlKey && e.keyCode === 83) {
-            e.preventDefault();
-        }
-        // منع F12 (أدوات المطور)
-        if (e.keyCode === 123) {
-            e.preventDefault();
-        }
-    });
-
-    // إضافة تأثيرات إضافية للروابط
-    document.addEventListener('DOMContentLoaded', function() {
-        const downloadLinks = document.querySelectorAll('.download-btn');
-        
-        downloadLinks.forEach(link => {
-            link.addEventListener('touchstart', function(e) {
-                e.preventDefault();
-                this.click();
-            }, {passive: false});
-            
-            link.addEventListener('contextmenu', function(e) {
-                e.preventDefault();
-            });
+        document.querySelectorAll('.downloads').forEach(div => {
+            div.classList.remove('active');
         });
+        
+        document.getElementById(deviceType + '-downloads').classList.add('active');
+        
+        // تأثير الانتقال
+        const activeDiv = document.querySelector('.downloads.active');
+        activeDiv.style.animation = 'none';
+        setTimeout(() => {
+            activeDiv.style.animation = 'fadeInUp 0.8s ease-out';
+        }, 10);
+    }
+
+    // تنزيل التطبيق مع الحماية
+    function downloadApp(appType) {
+        const link = downloadLinks[appType];
+        if (link) {
+            // منع النسخ
+            const tempLink = document.createElement('a');
+            tempLink.href = link;
+            tempLink.style.display = 'none';
+            tempLink.target = '_blank';
+            document.body.appendChild(tempLink);
+            tempLink.click();
+            document.body.removeChild(tempLink);
+            
+            // تأثير بصري عند الضغط
+            event.target.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                event.target.style.transform = 'scale(1)';
+            }, 150);
+        }
+    }
+
+    // تبديل اللغة
+    function toggleLanguage() {
+        const isArabic = document.documentElement.lang === 'ar';
+        
+        if (isArabic) {
+            document.documentElement.lang = 'en';
+            document.documentElement.dir = 'ltr';
+            document.querySelectorAll('.ar-text').forEach(el => el.classList.add('hidden'));
+            document.querySelectorAll('.en-text').forEach(el => el.classList.remove('hidden'));
+        } else {
+            document.documentElement.lang = 'ar';
+            document.documentElement.dir = 'rtl';
+            document.querySelectorAll('.en-text').forEach(el => el.classList.add('hidden'));
+            document.querySelectorAll('.ar-text').forEach(el => el.classList.remove('hidden'));
+        }
+    }
+
+    // حماية من النسخ
+    document.addEventListener('contextmenu', e => e.preventDefault());
+    document.addEventListener('selectstart', e => e.preventDefault());
+    document.addEventListener('dragstart', e => e.preventDefault());
+
+    // تحويل الضغط الطويل
+    let longPressTimer;
+    document.addEventListener('touchstart', e => {
+        longPressTimer = setTimeout(() => {
+            e.preventDefault();
+        }, 500);
     });
 
-    // تشغيل الأنيميشنات عند تحميل الصفحة
-    window.addEventListener('load', function() {
-        // إخفاء شاشة التحميل
-        setTimeout(() => {
-            document.getElementById('loading').classList.add('hide');
-        }, 1500);
-        
-        // إنشاء النجوم
+    document.addEventListener('touchend', () => {
+        clearTimeout(longPressTimer);
+    });
+
+    // تهيئة الصفحة
+    document.addEventListener('DOMContentLoaded', () => {
         createStars();
         
-        // تشغيل الأنيميشنات
+        // تأثير التحميل
+        document.body.style.opacity = '0';
         setTimeout(() => {
+            document.body.style.transition = 'opacity 1s ease';
             document.body.style.opacity = '1';
-        }, 1600);
+        }, 100);
     });
 
-    // تحسين الأداء للأجهزة المحمولة
-    if ('serviceWorker' in navigator) {
-        window.addEventListener('load', function() {
-            navigator.serviceWorker.register('/sw.js')
-                .then(function(registration) {
-                    console.log('SW registered: ', registration);
-                })
-                .catch(function(registrationError) {
-                    console.log('SW registration failed: ', registrationError);
-                });
-        });
-    }
-
-    // تحسين التمرير السلس
-    document.documentElement.style.scrollBehavior = 'smooth';
+    // تحسين الأداء
+    let ticking = false;
+    window.addEventListener('scroll', () => {
+        if (!ticking) {
+            requestAnimationFrame(() => {
+                ticking = false;
+            });
+            ticking = true;
+        }
+    });
 </script>
 ```
 
