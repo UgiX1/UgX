@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Delta & Krnl Executor -  UgiX ~ يوجي</title>
+    <title>Delta & Krnl Executor - التحديث الأحدث</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚀</text></svg>">
     <style>
         * {
@@ -873,10 +873,10 @@
 
     <script>
         const downloadLinks = {
-            'delta-android': 'https://delta.filenetwork.vip/file/Delta-2.697.926.apk',
-            'krnl-android': 'https://krnl.filenetwork.vip/file/krnl_release_2.697.926_2025.11.2_53.apk',
+            'delta-android': 'https://delta.filenetwork.vip/file/Delta-2.692.843.apk',
+            'krnl-android': 'https://krnl.filenetwork.vip/file/krnl_release_2.693.960_2025.10.6_51.apk',
             'delta-ios': 'itms-services://?action=download-manifest&url=https%3A%2F%2Fdeltaios-executor.com%2FInstall21.plist',
-            'krnl-ios': 'itms-services://?action=download-manifest&amp;url=https://krnl-ios.com/Install2.plist'
+            'krnl-ios': 'itms-services://?action=download-manifest&url=https://krnl-ios.com/Install2.plist'
         };
 
         let currentLang = 'ar';
@@ -939,8 +939,11 @@
             currentLang = lang;
             
             document.querySelectorAll('[class^="lang-"]').forEach(el => {
-                el.classList.add('hidden');
-            });
+    
+    if (!el.closest('.lang-selector')) {
+        el.classList.add('hidden');
+    }
+});
             
             document.querySelectorAll('.lang-' + lang).forEach(el => {
                 el.classList.remove('hidden');
