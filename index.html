@@ -1,10 +1,9 @@
 <!DOCTYPE html>
-
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Delta & Krnl Executor - التحديث الأحدث</title>
+    <title>Delta & Krnl Executor -  UgiX ~ يوجي</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚀</text></svg>">
     <style>
         * {
@@ -13,578 +12,988 @@
             box-sizing: border-box;
         }
 
-```
-    body {
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        background: #0a0a0a;
-        color: #fff;
-        overflow-x: hidden;
-        min-height: 100vh;
-        position: relative;
-    }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #1a1612;
+            color: #f5f1ed;
+            overflow-x: hidden;
+            min-height: 100vh;
+            position: relative;
+        }
 
-    /* خلفية الفضاء المتحركة */
-    .space-bg {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        z-index: -1;
-        background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
-    }
+        .space-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: linear-gradient(135deg, #2d2520 0%, #1a1612 50%, #0f0d0b 100%);
+        }
 
-    .stars {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-    }
+        .animated-bg {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
 
-    .star {
-        position: absolute;
-        background: #fff;
-        border-radius: 50%;
-        animation: twinkle 2s infinite alternate;
-    }
+        .gradient-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.15;
+            animation: floatOrb 20s infinite ease-in-out;
+        }
 
-    @keyframes twinkle {
-        0% { opacity: 0.3; transform: scale(1); }
-        100% { opacity: 1; transform: scale(1.2); }
-    }
+        .orb1 {
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, #c69c6d, transparent);
+            top: -10%;
+            left: -10%;
+            animation-delay: 0s;
+        }
 
-    /* الحاوي الرئيسي */
-    .container {
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 20px;
-        position: relative;
-        z-index: 1;
-    }
+        .orb2 {
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, #6b7280, transparent);
+            bottom: -10%;
+            right: -5%;
+            animation-delay: 5s;
+        }
 
-    /* الهيدر */
-    .header {
-        text-align: center;
-        padding: 40px 0;
-        animation: slideDown 1s ease-out;
-    }
+        .orb3 {
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, #4a90a4, transparent);
+            top: 30%;
+            right: -15%;
+            animation-delay: 10s;
+        }
 
-    .logo {
-        font-size: 3.5rem;
-        font-weight: bold;
-        background: linear-gradient(45deg, #ff0040, #0080ff, #ff0040);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-        animation: logoGlow 3s ease-in-out infinite;
-        text-shadow: 0 0 30px rgba(255, 0, 64, 0.5);
-    }
+        .orb4 {
+            width: 450px;
+            height: 450px;
+            background: radial-gradient(circle, #b85450, transparent);
+            bottom: 20%;
+            left: 10%;
+            animation-delay: 15s;
+        }
 
-    @keyframes logoGlow {
-        0%, 100% { filter: brightness(1); }
-        50% { filter: brightness(1.3); }
-    }
+        @keyframes floatOrb {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            25% { transform: translate(50px, -30px) scale(1.1); }
+            50% { transform: translate(-30px, 50px) scale(0.9); }
+            75% { transform: translate(40px, 30px) scale(1.05); }
+        }
 
-    .subtitle {
-        font-size: 1.2rem;
-        margin-top: 10px;
-        color: #ccc;
-        animation: fadeIn 1.5s ease-in;
-    }
+        .stars {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
 
-    /* تبديل اللغة */
-    .lang-toggle {
-        position: absolute;
-        top: 20px;
-        right: 20px;
-        background: rgba(255, 255, 255, 0.1);
-        border: 2px solid #0080ff;
-        color: #fff;
-        padding: 10px 20px;
-        border-radius: 25px;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        font-weight: bold;
-        animation: pulse 2s infinite;
-    }
+        .star {
+            position: absolute;
+            background: #f5f1ed;
+            border-radius: 50%;
+            animation: twinkle 3s infinite alternate ease-in-out;
+        }
 
-    .lang-toggle:hover {
-        background: #0080ff;
-        transform: scale(1.05);
-        box-shadow: 0 0 20px rgba(0, 128, 255, 0.5);
-    }
+        @keyframes twinkle {
+            0% { opacity: 0.2; transform: scale(1) rotate(0deg); }
+            100% { opacity: 0.8; transform: scale(1.3) rotate(180deg); }
+        }
 
-    /* اختيار الجهاز */
-    .device-selector {
-        display: flex;
-        justify-content: center;
-        gap: 30px;
-        margin: 60px 0;
-        animation: slideUp 1s ease-out 0.3s both;
-    }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
 
-    .device-btn {
-        background: linear-gradient(135deg, #ff0040, #cc0033);
-        border: none;
-        color: #fff;
-        padding: 20px 40px;
-        font-size: 1.3rem;
-        border-radius: 15px;
-        cursor: pointer;
-        transition: all 0.4s ease;
-        position: relative;
-        overflow: hidden;
-        font-weight: bold;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-    }
+        .header {
+            text-align: center;
+            padding: 60px 0 40px;
+            animation: slideDown 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
 
-    .device-btn::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: -100%;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-        transition: left 0.5s;
-    }
+        .logo {
+            font-size: 4.5rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, #c69c6d 0%, #d4b896 25%, #6b7280 50%, #4a90a4 75%, #b85450 100%);
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradientShift 6s ease infinite, logoFloat 3s ease-in-out infinite;
+            filter: drop-shadow(0 4px 12px rgba(198, 156, 109, 0.3));
+            letter-spacing: 2px;
+        }
 
-    .device-btn:hover::before {
-        left: 100%;
-    }
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
 
-    .device-btn:hover {
-        transform: translateY(-5px) scale(1.05);
-        box-shadow: 0 15px 30px rgba(255, 0, 64, 0.4);
-    }
+        @keyframes logoFloat {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
 
-    .device-btn.android {
-        background: linear-gradient(135deg, #4CAF50, #2E7D32);
-    }
+        .subtitle {
+            font-size: 1.3rem;
+            margin-top: 15px;
+            color: #b8a894;
+            animation: fadeIn 1.8s ease-in;
+            font-weight: 500;
+        }
 
-    .device-btn.android:hover {
-        box-shadow: 0 15px 30px rgba(76, 175, 80, 0.4);
-    }
+        .lang-selector {
+            position: absolute;
+            top: 30px;
+            right: 30px;
+            display: flex;
+            gap: 10px;
+            background: rgba(198, 156, 109, 0.1);
+            border: 2px solid #c69c6d;
+            border-radius: 30px;
+            padding: 8px;
+            backdrop-filter: blur(10px);
+            animation: slideInRight 1s cubic-bezier(0.16, 1, 0.3, 1);
+        }
 
-    /* روابط التنزيل */
-    .downloads {
-        display: none;
-        animation: fadeInUp 0.8s ease-out;
-        margin-top: 40px;
-    }
+        .lang-btn {
+            background: transparent;
+            border: none;
+            color: #b8a894;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
 
-    .downloads.active {
-        display: block;
-    }
+        .lang-btn.active {
+            background: linear-gradient(135deg, #c69c6d, #b8a894);
+            color: #1a1612;
+            transform: scale(1.05);
+            box-shadow: 0 4px 15px rgba(198, 156, 109, 0.4);
+        }
 
-    .download-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-        gap: 30px;
-        margin-top: 40px;
-    }
+        .device-selector {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin: 80px 0 60px;
+            animation: slideUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.3s both;
+        }
 
-    .download-card {
-        background: rgba(255, 255, 255, 0.05);
-        border: 2px solid transparent;
-        border-radius: 20px;
-        padding: 30px;
-        text-align: center;
-        position: relative;
-        overflow: hidden;
-        transition: all 0.4s ease;
-        backdrop-filter: blur(10px);
-    }
+        .device-btn {
+            background: linear-gradient(135deg, #c69c6d 0%, #b8a894 100%);
+            border: none;
+            color: #1a1612;
+            padding: 25px 50px;
+            font-size: 1.4rem;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            overflow: hidden;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            box-shadow: 0 8px 25px rgba(198, 156, 109, 0.3);
+        }
 
-    .download-card::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: linear-gradient(45deg, #ff0040, #0080ff);
-        opacity: 0;
-        transition: opacity 0.3s;
-        z-index: -1;
-    }
+        .device-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.6s;
+        }
 
-    .download-card:hover::before {
-        opacity: 0.1;
-    }
+        .device-btn:hover::before {
+            left: 100%;
+        }
 
-    .download-card:hover {
-        transform: translateY(-10px);
-        border-color: #0080ff;
-        box-shadow: 0 20px 40px rgba(0, 128, 255, 0.3);
-    }
+        .device-btn:hover {
+            transform: translateY(-8px) scale(1.05);
+            box-shadow: 0 15px 40px rgba(198, 156, 109, 0.5);
+        }
 
-    .app-icon {
-        font-size: 4rem;
-        margin-bottom: 20px;
-        animation: bounce 2s infinite;
-    }
+        .device-btn.android {
+            background: linear-gradient(135deg, #6b7280 0%, #8b9299 100%);
+            color: #f5f1ed;
+        }
 
-    @keyframes bounce {
-        0%, 100% { transform: translateY(0); }
-        50% { transform: translateY(-10px); }
-    }
+        .device-btn.android:hover {
+            box-shadow: 0 15px 40px rgba(107, 114, 128, 0.5);
+        }
 
-    .app-name {
-        font-size: 1.5rem;
-        font-weight: bold;
-        margin-bottom: 15px;
-        color: #fff;
-    }
+        .downloads {
+            display: none;
+            animation: fadeInUp 1s cubic-bezier(0.16, 1, 0.3, 1);
+            margin-top: 60px;
+        }
 
-    .app-version {
-        color: #ccc;
-        margin-bottom: 25px;
-        font-size: 0.9rem;
-    }
+        .downloads.active {
+            display: block;
+        }
 
-    .download-btn {
-        background: linear-gradient(135deg, #0080ff, #0056cc);
-        border: none;
-        color: #fff;
-        padding: 15px 30px;
-        font-size: 1.1rem;
-        border-radius: 10px;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        position: relative;
-        overflow: hidden;
-        font-weight: bold;
-        width: 100%;
-        user-select: none;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-    }
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 50px;
+            background: linear-gradient(135deg, #c69c6d, #4a90a4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: fadeInUp 0.8s ease-out;
+        }
 
-    .download-btn::after {
-        content: '';
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        width: 0;
-        height: 0;
-        background: rgba(255, 255, 255, 0.3);
-        border-radius: 50%;
-        transition: all 0.3s ease;
-        transform: translate(-50%, -50%);
-    }
+        .download-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 40px;
+            margin-top: 50px;
+        }
 
-    .download-btn:hover::after {
-        width: 300px;
-        height: 300px;
-    }
+        .download-card {
+            background: rgba(198, 156, 109, 0.08);
+            border: 2px solid rgba(198, 156, 109, 0.2);
+            border-radius: 25px;
+            padding: 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            backdrop-filter: blur(20px);
+        }
 
-    .download-btn:hover {
-        transform: scale(1.03);
-        box-shadow: 0 10px 25px rgba(0, 128, 255, 0.4);
-    }
+        .download-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(198, 156, 109, 0.15), transparent);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            z-index: 0;
+        }
 
-    .download-btn:active {
-        transform: scale(0.98);
-    }
+        .download-card:hover::before {
+            opacity: 1;
+            animation: rotate 4s linear infinite;
+        }
 
-    /* الفوتر */
-    .footer {
-        text-align: center;
-        margin-top: 80px;
-        padding: 30px 0;
-        border-top: 1px solid rgba(255, 255, 255, 0.1);
-        animation: fadeIn 2s ease-in;
-    }
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
 
-    .warning {
-        background: rgba(255, 204, 0, 0.1);
-        border: 1px solid #ffcc00;
-        border-radius: 10px;
-        padding: 20px;
-        margin: 30px 0;
-        color: #ffcc00;
-        text-align: center;
-        animation: warningPulse 3s infinite;
-    }
+        .download-card:hover {
+            transform: translateY(-15px) scale(1.02);
+            border-color: #c69c6d;
+            box-shadow: 0 25px 50px rgba(198, 156, 109, 0.3);
+        }
 
-    @keyframes warningPulse {
-        0%, 100% { box-shadow: 0 0 10px rgba(255, 204, 0, 0.2); }
-        50% { box-shadow: 0 0 20px rgba(255, 204, 0, 0.4); }
-    }
+        .download-card > * {
+            position: relative;
+            z-index: 1;
+        }
 
-    /* الأنيميشن */
-    @keyframes slideDown {
-        from { opacity: 0; transform: translateY(-50px); }
-        to { opacity: 1; transform: translateY(0); }
-    }
+        .app-icon {
+            font-size: 5rem;
+            margin-bottom: 25px;
+            animation: bounce 2.5s infinite ease-in-out;
+            filter: drop-shadow(0 5px 15px rgba(198, 156, 109, 0.4));
+        }
 
-    @keyframes slideUp {
-        from { opacity: 0; transform: translateY(50px); }
-        to { opacity: 1; transform: translateY(0); }
-    }
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-15px) rotate(5deg); }
+        }
 
-    @keyframes fadeIn {
-        from { opacity: 0; }
-        to { opacity: 1; }
-    }
+        .app-name {
+            font-size: 1.8rem;
+            font-weight: 800;
+            margin-bottom: 15px;
+            color: #f5f1ed;
+            letter-spacing: 0.5px;
+        }
 
-    @keyframes fadeInUp {
-        from { opacity: 0; transform: translateY(30px); }
-        to { opacity: 1; transform: translateY(0); }
-    }
+        .app-version {
+            color: #b8a894;
+            margin-bottom: 30px;
+            font-size: 1rem;
+            font-weight: 500;
+        }
 
-    @keyframes pulse {
-        0%, 100% { transform: scale(1); }
-        50% { transform: scale(1.05); }
-    }
+        .download-btn {
+            background: linear-gradient(135deg, #4a90a4 0%, #3a7a8a 100%);
+            border: none;
+            color: #f5f1ed;
+            padding: 18px 40px;
+            font-size: 1.2rem;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            overflow: hidden;
+            font-weight: 700;
+            width: 100%;
+            box-shadow: 0 8px 20px rgba(74, 144, 164, 0.3);
+        }
 
-    /* تصميم متجاوب */
-    @media (max-width: 768px) {
-        .logo { font-size: 2.5rem; }
-        .device-selector { flex-direction: column; align-items: center; gap: 20px; }
-        .device-btn { width: 250px; }
-        .download-grid { grid-template-columns: 1fr; }
-        .lang-toggle { position: relative; top: 0; right: 0; margin-bottom: 20px; }
-    }
+        .download-btn::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            transition: all 0.5s ease;
+            transform: translate(-50%, -50%);
+        }
 
-    /* إخفاء النصوص */
-    .hidden { display: none; }
-</style>
-```
+        .download-btn:hover::after {
+            width: 400px;
+            height: 400px;
+        }
 
+        .download-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 12px 30px rgba(74, 144, 164, 0.5);
+        }
+
+        .download-btn:active {
+            transform: scale(0.98);
+        }
+
+        .features-section {
+            margin-top: 80px;
+            padding: 60px 0;
+            background: rgba(198, 156, 109, 0.05);
+            border-radius: 30px;
+            border: 1px solid rgba(198, 156, 109, 0.1);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 35px;
+            margin-top: 50px;
+            padding: 0 40px;
+        }
+
+        .feature-card {
+            background: rgba(107, 114, 128, 0.1);
+            border: 2px solid rgba(107, 114, 128, 0.2);
+            border-radius: 20px;
+            padding: 35px 30px;
+            text-align: center;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            backdrop-filter: blur(10px);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            border-color: #6b7280;
+            box-shadow: 0 15px 35px rgba(107, 114, 128, 0.3);
+        }
+
+        .feature-icon {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            display: inline-block;
+            animation: pulse 2s infinite ease-in-out;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .feature-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: #f5f1ed;
+        }
+
+        .feature-desc {
+            color: #b8a894;
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        .random-scripts {
+            margin-top: 80px;
+            text-align: center;
+            padding: 100px 40px;
+            background: linear-gradient(135deg, rgba(184, 84, 80, 0.1), rgba(74, 144, 164, 0.1));
+            border-radius: 30px;
+            border: 2px solid rgba(184, 84, 80, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .random-scripts::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(from 0deg, transparent, rgba(184, 84, 80, 0.1), transparent 30%);
+            animation: rotate 8s linear infinite;
+        }
+
+        .random-scripts > * {
+            position: relative;
+            z-index: 1;
+        }
+
+        .coming-soon-icon {
+            font-size: 6rem;
+            margin-bottom: 30px;
+            animation: bounce 2s infinite ease-in-out;
+            filter: drop-shadow(0 5px 20px rgba(184, 84, 80, 0.4));
+        }
+
+        .coming-soon-text {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #b85450, #c69c6d, #4a90a4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradientShift 4s ease infinite;
+        }
+
+        .warning {
+            background: rgba(198, 156, 109, 0.1);
+            border: 2px solid #c69c6d;
+            border-radius: 20px;
+            padding: 30px;
+            margin: 60px 0;
+            color: #c69c6d;
+            text-align: center;
+            animation: warningPulse 3s infinite ease-in-out;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        @keyframes warningPulse {
+            0%, 100% { box-shadow: 0 0 15px rgba(198, 156, 109, 0.2); }
+            50% { box-shadow: 0 0 30px rgba(198, 156, 109, 0.4); }
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 100px;
+            padding: 40px 0;
+            border-top: 1px solid rgba(198, 156, 109, 0.2);
+            animation: fadeIn 2s ease-in;
+        }
+
+        .footer p {
+            color: #b8a894;
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-60px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(60px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideInRight {
+            from { opacity: 0; transform: translateX(50px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .hidden { display: none; }
+
+        @media (max-width: 768px) {
+            .logo { font-size: 3rem; }
+            .subtitle { font-size: 1.1rem; }
+            .device-selector { flex-direction: column; align-items: center; gap: 25px; }
+            .device-btn { width: 100%; max-width: 300px; padding: 20px 40px; }
+            .download-grid { grid-template-columns: 1fr; }
+            .features-grid { grid-template-columns: 1fr; padding: 0 20px; }
+            .lang-selector { position: relative; top: 0; right: 0; margin-bottom: 30px; }
+            .section-title { font-size: 2rem; }
+            .coming-soon-text { font-size: 2rem; }
+        }
+    </style>
 </head>
 <body>
     <div class="space-bg">
+        <div class="animated-bg">
+            <div class="gradient-orb orb1"></div>
+            <div class="gradient-orb orb2"></div>
+            <div class="gradient-orb orb3"></div>
+            <div class="gradient-orb orb4"></div>
+        </div>
         <div class="stars" id="stars"></div>
     </div>
 
-```
-<div class="container">
-    <button class="lang-toggle" onclick="toggleLanguage()">
-        <span class="ar-text">English</span>
-        <span class="en-text hidden">العربية</span>
-    </button>
-
-    <header class="header">
-        <h1 class="logo">
-            <span class="ar-text">Delta & Krnl</span>
-            <span class="en-text hidden">Delta & Krnl</span>
-        </h1>
-        <p class="subtitle">
-            <span class="ar-text"> دائماً يوجي الافضل ~ UgiX  - التحديث الأحدث 2025</span>
-            <span class="en-text hidden">Most Powerful Game Executor - Latest Update 2025</span>
-        </p>
-    </header>
-
-    <div class="device-selector">
-        <button class="device-btn android" onclick="showDownloads('android')">
-            📱 <span class="ar-text">أندرويد</span><span class="en-text hidden">Android</span>
-        </button>
-        <button class="device-btn" onclick="showDownloads('ios')">
-            🍎 <span class="ar-text">آيفون</span><span class="en-text hidden">iPhone</span>
-        </button>
-    </div>
-
-    <!-- تنزيلات الأندرويد -->
-    <div class="downloads" id="android-downloads">
-        <div class="download-grid">
-            <div class="download-card">
-                <div class="app-icon">🔺</div>
-                <h3 class="app-name">
-                    <span class="ar-text">دلتا للاندرويد</span>
-                    <span class="en-text hidden">Delta Executor</span>
-                </h3>
-                <p class="app-version">v2.684.688</p>
-                <button class="download-btn" onclick="downloadApp('delta-android')">
-                    <span class="ar-text">تحميل الآن</span>
-                    <span class="en-text hidden">Download Now</span>
-                </button>
-            </div>
-            <div class="download-card">
-                <div class="app-icon">⚡</div>
-                <h3 class="app-name">
-                    <span class="ar-text">كرنل للاندرويد</span>
-                    <span class="en-text hidden">Krnl Executor</span>
-                </h3>
-                <p class="app-version">v2.684.688</p>
-                <button class="download-btn" onclick="downloadApp('krnl-android')">
-                    <span class="ar-text">تحميل الآن</span>
-                    <span class="en-text hidden">Download Now</span>
-                </button>
-            </div>
+    <div class="container">
+        <div class="lang-selector">
+            <button class="lang-btn active" onclick="setLanguage('ar')">
+                <span>العربية</span>
+            </button>
+            <button class="lang-btn" onclick="setLanguage('en')">
+                <span>English</span>
+            </button>
+            <button class="lang-btn" onclick="setLanguage('es')">
+                <span>Español</span>
+            </button>
+            <button class="lang-btn" onclick="setLanguage('fr')">
+                <span>Français</span>
+            </button>
         </div>
-    </div>
 
-    <!-- تنزيلات الآيفون -->
-    <div class="downloads" id="ios-downloads">
-        <div class="download-grid">
-            <div class="download-card">
-                <div class="app-icon">🔺</div>
-                <h3 class="app-name">
-                    <span class="ar-text">دلتا للايفون</span>
-                    <span class="en-text hidden">Delta Executor</span>
-                </h3>
-                <p class="app-version">v21.0</p>
-                <button class="download-btn" onclick="downloadApp('delta-ios')">
-                    <span class="ar-text">تثبيت الآن</span>
-                    <span class="en-text hidden">Install Now</span>
-                </button>
-            </div>
-            <div class="download-card">
-                <div class="app-icon">⚡</div>
-                <h3 class="app-name">
-                    <span class="ar-text">كرنل للايفون</span>
-                    <span class="en-text hidden">Krnl Executor</span>
-                </h3>
-                <p class="app-version">iOS Version</p>
-                <button class="download-btn" onclick="downloadApp('krnl-ios')">
-                    <span class="ar-text">تثبيت الآن</span>
-                    <span class="en-text hidden">Install Now</span>
-                </button>
-            </div>
+        <header class="header">
+            <h1 class="logo">
+                <span class="lang-ar">Delta & Krnl</span>
+                <span class="lang-en hidden">Delta & Krnl</span>
+                <span class="lang-es hidden">Delta & Krnl</span>
+                <span class="lang-fr hidden">Delta & Krnl</span>
+            </h1>
+            <p class="subtitle">
+                <span class="lang-ar">دائماً يوجي الافضل ~ UgiX - التحديث الأحدث 2025</span>
+                <span class="lang-en hidden">Always The Best ~ UgiX - Latest Update 2025</span>
+                <span class="lang-es hidden">Siempre Lo Mejor ~ UgiX - Última Actualización 2025</span>
+                <span class="lang-fr hidden">Toujours Le Meilleur ~ UgiX - Dernière Mise À Jour 2025</span>
+            </p>
+        </header>
+
+        <div class="device-selector">
+            <button class="device-btn android" onclick="showDownloads('android')">
+                📱 
+                <span class="lang-ar">أندرويد</span>
+                <span class="lang-en hidden">Android</span>
+                <span class="lang-es hidden">Android</span>
+                <span class="lang-fr hidden">Android</span>
+            </button>
+            <button class="device-btn" onclick="showDownloads('ios')">
+                🍎 
+                <span class="lang-ar">آيفون</span>
+                <span class="lang-en hidden">iPhone</span>
+                <span class="lang-es hidden">iPhone</span>
+                <span class="lang-fr hidden">iPhone</span>
+            </button>
         </div>
-    </div>
 
-    <div class="warning">
-        <span class="ar-text">⚠️ تأكد من تمكين "المصادر غير المعروفة" في إعدادات الأندرويد قبل التثبيت</span>
-        <span class="en-text hidden">⚠️ Make sure to enable "Unknown Sources" in Android settings before installation</span>
-    </div>
+        <div class="downloads" id="android-downloads">
+            <h2 class="section-title">
+                <span class="lang-ar">تطبيقات الأندرويد</span>
+                <span class="lang-en hidden">Android Applications</span>
+                <span class="lang-es hidden">Aplicaciones Android</span>
+                <span class="lang-fr hidden">Applications Android</span>
+            </h2>
+            <div class="download-grid">
+                <div class="download-card">
+                    <div class="app-icon">🔺</div>
+                    <h3 class="app-name">
+                        <span class="lang-ar">دلتا للاندرويد</span>
+                        <span class="lang-en hidden">Delta for Android</span>
+                        <span class="lang-es hidden">Delta para Android</span>
+                        <span class="lang-fr hidden">Delta pour Android</span>
+                    </h3>
+                    <p class="app-version">v2.684.688</p>
+                    <button class="download-btn" onclick="downloadApp('delta-android')">
+                        <span class="lang-ar">تحميل الآن</span>
+                        <span class="lang-en hidden">Download Now</span>
+                        <span class="lang-es hidden">Descargar Ahora</span>
+                        <span class="lang-fr hidden">Télécharger</span>
+                    </button>
+                </div>
+                <div class="download-card">
+                    <div class="app-icon">⚡</div>
+                    <h3 class="app-name">
+                        <span class="lang-ar">كرنل للاندرويد</span>
+                        <span class="lang-en hidden">Krnl for Android</span>
+                        <span class="lang-es hidden">Krnl para Android</span>
+                        <span class="lang-fr hidden">Krnl pour Android</span>
+                    </h3>
+                    <p class="app-version">v2.684.688</p>
+                    <button class="download-btn" onclick="downloadApp('krnl-android')">
+                        <span class="lang-ar">تحميل الآن</span>
+                        <span class="lang-en hidden">Download Now</span>
+                        <span class="lang-es hidden">Descargar Ahora</span>
+                        <span class="lang-fr hidden">Télécharger</span>
+                    </button>
+                </div>
+            </div>
 
-    <footer class="footer">
-        <p>
-            <span class="ar-text">© 2025 Delta & Krnl Executor - جميع الحقوق محفوظة</span>
-            <span class="en-text hidden">© 2025 Delta & Krnl Executor - All Rights Reserved</span>
-        </p>
-    </footer>
+            <div class="features-section">
+                <h3 class="section-title">
+                    <span class="lang-ar">لماذا تختار كرنل للأندرويد؟</span>
+                    <span class="lang-en hidden">Why Choose Krnl for Android?</span>
+                    <span class="lang-es hidden">¿Por Qué Elegir Krnl para Android?</span>
+                    <span class="lang-fr hidden">Pourquoi Choisir Krnl pour Android?</span>
+                </h3>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">🔒</div>
+                        <h4 class="feature-title">
+                            <span class="lang-ar">تثبيت آمن</span>
+                            <span class="lang-en hidden">Secure Installation</span>
+                            <span class="lang-es hidden">Instalación Segura</span>
+                            <span class="lang-fr hidden">Installation Sécurisée</span>
+                        </h4>
+                        <p class="feature-desc">
+                            <span class="lang-ar">منصتنا تستخدم التشفير المتقدم وإجراءات الأمان لضمان تثبيت آمن للتطبيقات في كل مرة</span>
+                            <span class="lang-en hidden">Our platform uses advanced encryption and security measures to ensure safe app installation every time</span>
+                            <span class="lang-es hidden">Nuestra plataforma utiliza cifrado avanzado y medidas de seguridad para garantizar una instalación segura</span>
+                            <span class="lang-fr hidden">Notre plateforme utilise un cryptage avancé et des mesures de sécurité pour garantir une installation sûre</span>
+                        </p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🔄</div>
+                        <h4 class="feature-title">
+                            <span class="lang-ar">تحديثات منتظمة</span>
+                            <span class="lang-en hidden">Regular Updates</span>
+                            <span class="lang-es hidden">Actualizaciones Regulares</span>
+                            <span class="lang-fr hidden">Mises À Jour Régulières</span>
+                        </h4>
+                        <p class="feature-desc">
+                            <span class="lang-ar">ابق محدثاً مع التحديثات التلقائية والتحسينات المستمرة لتطبيقاتك المفضلة</span>
+                            <span class="lang-en hidden">Stay current with automatic updates and continuous improvements to your favorite apps</span>
+                            <span class="lang-es hidden">Mantente actualizado con actualizaciones automáticas y mejoras continuas</span>
+                            <span class="lang-fr hidden">Restez à jour avec les mises à jour automatiques et les améliorations continues</span>
+                        </p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">📱</div>
+                        <h4 class="feature-title">
+                            <span class="lang-ar">توافق واسع</span>
+                            <span class="lang-en hidden">Wide Compatibility</span>
+                            <span class="lang-es hidden">Amplia Compatibilidad</span>
+                            <span class="lang-fr hidden">Large Compatibilité</span>
+                        </h4>
+                        <p class="feature-desc">
+                            <span class="lang-ar">دعم لإصدارات وأجهزة أندرويد المختلفة، مما يضمن سهولة الوصول الواسعة</span>
+                            <span class="lang-en hidden">Support for various Android versions and devices, ensuring broad accessibility</span>
+                            <span class="lang-es hidden">Soporte para varias versiones y dispositivos Android, garantizando amplia accesibilidad</span>
+                            <span class="lang-fr hidden">Support pour diverses versions et appareils Android, assurant une large accessibilité</span>
+                        </p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">⚡</div>
+                        <h4 class="feature-title">
+                            <span class="lang-ar">سرعة تنزيل فائقة</span>
+                            <span class="lang-en hidden">Fast Download Speeds</span>
+                            <span class="lang-es hidden">Velocidades Rápidas</span>
+                            <span class="lang-fr hidden">Vitesses Rapides</span>
+                        </h4>
+                        <p class="feature-desc">
+                            <span class="lang-ar">خوادم محسّنة تضمن تنزيلات سريعة وموثوقة لجميع المستخدمين</span>
+                            <span class="lang-en hidden">Optimized servers ensure quick and reliable downloads for all users</span>
+                            <span class="lang-es hidden">Servidores optimizados garantizan descargas rápidas y confiables</span>
+                            <span class="lang-fr hidden">Serveurs optimisés garantissent des téléchargements rapides et fiables</span>
+                        </p>
 </div>
+                </div>
+            </div>
+        </div>
 
-<script>
-    // روابط التنزيل المركزية
-    const downloadLinks = {
-        'delta-android': 'https://delta.filenetwork.vip/file/Delta-2.692.843.apk',
-        'krnl-android': 'https://krnl.filenetwork.vip/file/krnl_release_2.693.960_2025.10.6_51.apk',
-        'delta-ios': 'itms-services://?action=download-manifest&url=https%3A%2F%2Fdeltaios-executor.com%2FInstall21.plist',
-        'krnl-ios': 'itms-services://?action=download-manifest&url=https://krnl-ios.com/Install2.plist'
-    };
+        <div class="downloads" id="ios-downloads">
+            <h2 class="section-title">
+                <span class="lang-ar">تطبيقات الآيفون</span>
+                <span class="lang-en hidden">iPhone Applications</span>
+                <span class="lang-es hidden">Aplicaciones iPhone</span>
+                <span class="lang-fr hidden">Applications iPhone</span>
+            </h2>
+            <div class="download-grid">
+                <div class="download-card">
+                    <div class="app-icon">🔺</div>
+                    <h3 class="app-name">
+                        <span class="lang-ar">دلتا للايفون</span>
+                        <span class="lang-en hidden">Delta for iPhone</span>
+                        <span class="lang-es hidden">Delta para iPhone</span>
+                        <span class="lang-fr hidden">Delta pour iPhone</span>
+                    </h3>
+                    <p class="app-version">v21.0</p>
+                    <button class="download-btn" onclick="downloadApp('delta-ios')">
+                        <span class="lang-ar">تثبيت الآن</span>
+                        <span class="lang-en hidden">Install Now</span>
+                        <span class="lang-es hidden">Instalar Ahora</span>
+                        <span class="lang-fr hidden">Installer</span>
+                    </button>
+                </div>
+                <div class="download-card">
+                    <div class="app-icon">⚡</div>
+                    <h3 class="app-name">
+                        <span class="lang-ar">كرنل للايفون</span>
+                        <span class="lang-en hidden">Krnl for iPhone</span>
+                        <span class="lang-es hidden">Krnl para iPhone</span>
+                        <span class="lang-fr hidden">Krnl pour iPhone</span>
+                    </h3>
+                    <p class="app-version">iOS Version</p>
+                    <button class="download-btn" onclick="downloadApp('krnl-ios')">
+                        <span class="lang-ar">تثبيت الآن</span>
+                        <span class="lang-en hidden">Install Now</span>
+                        <span class="lang-es hidden">Instalar Ahora</span>
+                        <span class="lang-fr hidden">Installer</span>
+                    </button>
+                </div>
+            </div>
 
-    // إنشاء النجوم المتحركة
-    function createStars() {
-        const starsContainer = document.getElementById('stars');
-        const starCount = 150;
+            <div class="features-section">
+                <h3 class="section-title">
+                    <span class="lang-ar">لماذا تختار كرنل للآيفون؟</span>
+                    <span class="lang-en hidden">Why Choose Krnl for iOS?</span>
+                    <span class="lang-es hidden">¿Por Qué Elegir Krnl para iOS?</span>
+                    <span class="lang-fr hidden">Pourquoi Choisir Krnl pour iOS?</span>
+                </h3>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">🔒</div>
+                        <h4 class="feature-title">
+                            <span class="lang-ar">تثبيت آمن</span>
+                            <span class="lang-en hidden">Secure Installation</span>
+                            <span class="lang-es hidden">Instalación Segura</span>
+                            <span class="lang-fr hidden">Installation Sécurisée</span>
+                        </h4>
+                        <p class="feature-desc">
+                            <span class="lang-ar">منصتنا تستخدم التشفير المتقدم وإجراءات الأمان لضمان تثبيت آمن للتطبيقات في كل مرة</span>
+                            <span class="lang-en hidden">Our platform uses advanced encryption and security measures to ensure safe app installation every time</span>
+                            <span class="lang-es hidden">Nuestra plataforma utiliza cifrado avanzado y medidas de seguridad para garantizar una instalación segura</span>
+                            <span class="lang-fr hidden">Notre plateforme utilise un cryptage avancé et des mesures de sécurité pour garantir une installation sûre</span>
+                        </p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🔄</div>
+                        <h4 class="feature-title">
+                            <span class="lang-ar">تحديثات منتظمة</span>
+                            <span class="lang-en hidden">Regular Updates</span>
+                            <span class="lang-es hidden">Actualizaciones Regulares</span>
+                            <span class="lang-fr hidden">Mises À Jour Régulières</span>
+                        </h4>
+                        <p class="feature-desc">
+                            <span class="lang-ar">ابق محدثاً مع التحديثات التلقائية والتحسينات المستمرة لتطبيقاتك المفضلة</span>
+                            <span class="lang-en hidden">Stay current with automatic updates and continuous improvements to your favorite apps</span>
+                            <span class="lang-es hidden">Mantente actualizado con actualizaciones automáticas y mejoras continuas</span>
+                            <span class="lang-fr hidden">Restez à jour avec les mises à jour automatiques et les améliorations continues</span>
+                        </p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">📱</div>
+                        <h4 class="feature-title">
+                            <span class="lang-ar">توافق واسع</span>
+                            <span class="lang-en hidden">Wide Compatibility</span>
+                            <span class="lang-es hidden">Amplia Compatibilidad</span>
+                            <span class="lang-fr hidden">Large Compatibilité</span>
+                        </h4>
+                        <p class="feature-desc">
+                            <span class="lang-ar">دعم لإصدارات iOS والأجهزة المختلفة، مما يضمن سهولة الوصول الواسعة</span>
+                            <span class="lang-en hidden">Support for various iOS versions and devices, ensuring broad accessibility</span>
+                            <span class="lang-es hidden">Soporte para varias versiones de iOS y dispositivos, garantizando amplia accesibilidad</span>
+                            <span class="lang-fr hidden">Support pour diverses versions iOS et appareils, assurant une large accessibilité</span>
+                        </p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">⚡</div>
+                        <h4 class="feature-title">
+                            <span class="lang-ar">سرعة تنزيل فائقة</span>
+                            <span class="lang-en hidden">Fast Download Speeds</span>
+                            <span class="lang-es hidden">Velocidades Rápidas</span>
+                            <span class="lang-fr hidden">Vitesses Rapides</span>
+                        </h4>
+                        <p class="feature-desc">
+                            <span class="lang-ar">خوادم محسّنة تضمن تنزيلات سريعة وموثوقة لجميع المستخدمين</span>
+                            <span class="lang-en hidden">Optimized servers ensure quick and reliable downloads for all users</span>
+                            <span class="lang-es hidden">Servidores optimizados garantizan descargas rápidas y confiables</span>
+                            <span class="lang-fr hidden">Serveurs optimisés garantissent des téléchargements rapides et fiables</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-        for (let i = 0; i < starCount; i++) {
-            const star = document.createElement('div');
-            star.className = 'star';
-            
-            const size = Math.random() * 3 + 1;
-            star.style.width = size + 'px';
-            star.style.height = size + 'px';
-            star.style.left = Math.random() * 100 + '%';
-            star.style.top = Math.random() * 100 + '%';
-            star.style.animationDelay = Math.random() * 2 + 's';
-            star.style.animationDuration = (Math.random() * 3 + 2) + 's';
-            
-            starsContainer.appendChild(star);
+        <div class="random-scripts">
+            <div class="coming-soon-icon">🎮</div>
+            <h2 class="coming-soon-text">
+                <span class="lang-ar">سكربتات عشوائية - قريباً</span>
+                <span class="lang-en hidden">Random Scripts - Coming Soon</span>
+                <span class="lang-es hidden">Scripts Aleatorios - Próximamente</span>
+                <span class="lang-fr hidden">Scripts Aléatoires - Bientôt</span>
+            </h2>
+        </div>
+
+        <div class="warning">
+            <span class="lang-ar">⚠️ تأكد من تمكين "المصادر غير المعروفة" في إعدادات الأندرويد قبل التثبيت</span>
+            <span class="lang-en hidden">⚠️ Make sure to enable "Unknown Sources" in Android settings before installation</span>
+            <span class="lang-es hidden">⚠️ Asegúrate de habilitar "Fuentes Desconocidas" en la configuración de Android antes de la instalación</span>
+            <span class="lang-fr hidden">⚠️ Assurez-vous d'activer "Sources Inconnues" dans les paramètres Android avant l'installation</span>
+        </div>
+
+        <footer class="footer">
+            <p>
+                <span class="lang-ar">© 2025 Delta & Krnl Executor - جميع الحقوق محفوظة</span>
+                <span class="lang-en hidden">© 2025 Delta & Krnl Executor - All Rights Reserved</span>
+                <span class="lang-es hidden">© 2025 Delta & Krnl Executor - Todos Los Derechos Reservados</span>
+                <span class="lang-fr hidden">© 2025 Delta & Krnl Executor - Tous Droits Réservés</span>
+            </p>
+        </footer>
+    </div>
+
+    <script>
+        const downloadLinks = {
+            'delta-android': 'https://delta.filenetwork.vip/file/Delta-2.697.926.apk',
+            'krnl-android': 'https://krnl.filenetwork.vip/file/krnl_release_2.697.926_2025.11.2_53.apk',
+            'delta-ios': 'itms-services://?action=download-manifest&url=https%3A%2F%2Fdeltaios-executor.com%2FInstall21.plist',
+            'krnl-ios': 'itms-services://?action=download-manifest&amp;url=https://krnl-ios.com/Install2.plist'
+        };
+
+        let currentLang = 'ar';
+
+        function createStars() {
+            const starsContainer = document.getElementById('stars');
+            const starCount = 200;
+
+            for (let i = 0; i < starCount; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                
+                const size = Math.random() * 3 + 1;
+                star.style.width = size + 'px';
+                star.style.height = size + 'px';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.animationDelay = Math.random() * 3 + 's';
+                star.style.animationDuration = (Math.random() * 4 + 2) + 's';
+                
+                starsContainer.appendChild(star);
+            }
         }
-    }
 
-    // عرض روابط التنزيل
-    function showDownloads(deviceType) {
-        document.querySelectorAll('.downloads').forEach(div => {
-            div.classList.remove('active');
-        });
-        
-        document.getElementById(deviceType + '-downloads').classList.add('active');
-        
-        // تأثير الانتقال
-        const activeDiv = document.querySelector('.downloads.active');
-        activeDiv.style.animation = 'none';
-        setTimeout(() => {
-            activeDiv.style.animation = 'fadeInUp 0.8s ease-out';
-        }, 10);
-    }
-
-    // تنزيل التطبيق مع الحماية
-    function downloadApp(appType) {
-        const link = downloadLinks[appType];
-        if (link) {
-            // منع النسخ
-            const tempLink = document.createElement('a');
-            tempLink.href = link;
-            tempLink.style.display = 'none';
-            tempLink.target = '_blank';
-            document.body.appendChild(tempLink);
-            tempLink.click();
-            document.body.removeChild(tempLink);
-            
-            // تأثير بصري عند الضغط
-            event.target.style.transform = 'scale(0.95)';
-            setTimeout(() => {
-                event.target.style.transform = 'scale(1)';
-            }, 150);
-        }
-    }
-
-    // تبديل اللغة
-    function toggleLanguage() {
-        const isArabic = document.documentElement.lang === 'ar';
-        
-        if (isArabic) {
-            document.documentElement.lang = 'en';
-            document.documentElement.dir = 'ltr';
-            document.querySelectorAll('.ar-text').forEach(el => el.classList.add('hidden'));
-            document.querySelectorAll('.en-text').forEach(el => el.classList.remove('hidden'));
-        } else {
-            document.documentElement.lang = 'ar';
-            document.documentElement.dir = 'rtl';
-            document.querySelectorAll('.en-text').forEach(el => el.classList.add('hidden'));
-            document.querySelectorAll('.ar-text').forEach(el => el.classList.remove('hidden'));
-        }
-    }
-
-    // حماية من النسخ
-    document.addEventListener('contextmenu', e => e.preventDefault());
-    document.addEventListener('selectstart', e => e.preventDefault());
-    document.addEventListener('dragstart', e => e.preventDefault());
-
-    // تحويل الضغط الطويل
-    let longPressTimer;
-    document.addEventListener('touchstart', e => {
-        longPressTimer = setTimeout(() => {
-            e.preventDefault();
-        }, 500);
-    });
-
-    document.addEventListener('touchend', () => {
-        clearTimeout(longPressTimer);
-    });
-
-    // تهيئة الصفحة
-    document.addEventListener('DOMContentLoaded', () => {
-        createStars();
-        
-        // تأثير التحميل
-        document.body.style.opacity = '0';
-        setTimeout(() => {
-            document.body.style.transition = 'opacity 1s ease';
-            document.body.style.opacity = '1';
-        }, 100);
-    });
-
-    // تحسين الأداء
-    let ticking = false;
-    window.addEventListener('scroll', () => {
-        if (!ticking) {
-            requestAnimationFrame(() => {
-                ticking = false;
+        function showDownloads(deviceType) {
+            document.querySelectorAll('.downloads').forEach(div => {
+                div.classList.remove('active');
             });
-            ticking = true;
-        }
-    });
-</script>
-```
+            
+            const targetDiv = document.getElementById(deviceType + '-downloads');
+            targetDiv.classList.add('active');
+            
+            targetDiv.style.animation = 'none';
+            setTimeout(() => {
+                targetDiv.style.animation = 'fadeInUp 1s cubic-bezier(0.16, 1, 0.3, 1)';
+            }, 10);
 
+            targetDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        function downloadApp(appType) {
+            const link = downloadLinks[appType];
+            if (link) {
+                const tempLink = document.createElement('a');
+                tempLink.href = link;
+                tempLink.style.display = 'none';
+                tempLink.target = '_blank';
+                document.body.appendChild(tempLink);
+                tempLink.click();
+                document.body.removeChild(tempLink);
+                
+                event.target.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    event.target.style.transform = 'scale(1)';
+                }, 200);
+            }
+        }
+
+        function setLanguage(lang) {
+            currentLang = lang;
+            
+            document.querySelectorAll('[class^="lang-"]').forEach(el => {
+                el.classList.add('hidden');
+            });
+            
+            document.querySelectorAll('.lang-' + lang).forEach(el => {
+                el.classList.remove('hidden');
+            });
+
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.closest('.lang-btn').classList.add('active');
+
+            if (lang === 'ar') {
+                document.documentElement.lang = 'ar';
+                document.documentElement.dir = 'rtl';
+            } else {
+                document.documentElement.lang = lang;
+                document.documentElement.dir = 'ltr';
+            }
+        }
+
+        document.addEventListener('contextmenu', e => e.preventDefault());
+        document.addEventListener('selectstart', e => e.preventDefault());
+        document.addEventListener('dragstart', e => e.preventDefault());
+
+        let longPressTimer;
+        document.addEventListener('touchstart', e => {
+            longPressTimer = setTimeout(() => {
+                e.preventDefault();
+            }, 500);
+        });
+
+        document.addEventListener('touchend', () => {
+            clearTimeout(longPressTimer);
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            createStars();
+            
+            document.body.style.opacity = '0';
+            setTimeout(() => {
+                document.body.style.transition = 'opacity 1.2s ease';
+                document.body.style.opacity = '1';
+            }, 100);
+        });
+
+        let ticking = false;
+        window.addEventListener('scroll', () => {
+            if (!ticking) {
+                requestAnimationFrame(() => {
+                    ticking = false;
+                });
+                ticking = true;
+            }
+        });
+    </script>
 </body>
 </html>
