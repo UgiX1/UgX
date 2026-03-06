@@ -1,1018 +1,810 @@
 <!DOCTYPE html>
+
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Delta & Krnl Executor - التحديث الأحدث 2026 TgX</title>
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚀</text></svg>">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Delta & Krnl — 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Tajawal:wght@300;400;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --vi:#7B2FFF;
+  --vi2:#A855F7;
+  --vi3:#C084FC;
+  --bl:#1A3FD4;
+  --bl2:#4F86F7;
+  --bl3:#93C5FD;
+  --dark:#03010C;
+  --dark2:#07031A;
+}
+html,body{width:100%;min-height:100vh;overflow-x:hidden}
+body{
+  background:var(--dark);
+  color:#EDE9FF;
+  font-family:'Tajawal',sans-serif;
+  cursor:none;
+}
+
+/* ── CURSOR ── */
+#cDot,#cRing{position:fixed;border-radius:50%;pointer-events:none;z-index:99999;transform:translate(-50%,-50%)}
+#cDot{width:8px;height:8px;background:#A855F7;box-shadow:0 0 12px #A855F7,0 0 24px #7B2FFF}
+#cRing{width:32px;height:32px;border:1.5px solid rgba(168,85,247,.6);transition:width .2s,height .2s,border-color .2s}
+body:has(button:hover) #cRing{width:48px;height:48px;border-color:#A855F7}
+
+/* ── CANVAS BG ── */
+#cvs{position:fixed;inset:0;z-index:0}
+
+/* ── SCANLINES ── */
+body::after{
+content:’’;position:fixed;inset:0;z-index:1;pointer-events:none;
+background:repeating-linear-gradient(to bottom,transparent 0,transparent 3px,rgba(0,0,0,.12) 3px,rgba(0,0,0,.12) 4px);
+}
+
+/* ── MAIN WRAPPER ── */
+#wrap{position:relative;z-index:10}
+
+/* ══════════════════════════════════════
+HERO — full-screen split layout
+══════════════════════════════════════ */
+.hero{
+min-height:100vh;
+display:grid;
+grid-template-rows:auto 1fr auto;
+padding:0 48px;
+}
+
+/* NAV */
+nav{
+display:flex;align-items:center;justify-content:space-between;
+padding:28px 0;
+border-bottom:1px solid rgba(123,47,255,.2);
+}
+.nav-logo{
+font-family:‘Orbitron’,monospace;
+font-size:1rem;font-weight:700;letter-spacing:4px;
+color:rgba(192,132,252,.7);
+text-transform:uppercase;
+}
+.lang-row{
+display:flex;gap:2px;
+background:rgba(123,47,255,.08);
+border:1px solid rgba(123,47,255,.25);
+border-radius:40px;padding:4px;
+backdrop-filter:blur(20px);
+}
+.lb{
+background:none;border:none;cursor:none;
+font-family:‘Tajawal’,sans-serif;font-weight:700;font-size:.82rem;
+color:rgba(192,132,252,.45);
+padding:7px 18px;border-radius:30px;
+transition:all .3s;
+}
+.lb.on{
+background:linear-gradient(135deg,var(–vi),var(–bl));
+color:#fff;
+box-shadow:0 0 20px rgba(123,47,255,.5);
+}
+.lb:hover:not(.on){color:#C084FC}
+
+/* HERO CENTRE */
+.hero-centre{
+display:flex;flex-direction:column;
+align-items:center;justify-content:center;
+text-align:center;gap:28px;
+padding:40px 0;
+}
+
+.status-chip{
+display:inline-flex;align-items:center;gap:8px;
+border:1px solid rgba(123,47,255,.4);
+border-radius:3px;
+padding:6px 18px;
+font-family:‘Share Tech Mono’,monospace;
+font-size:.72rem;letter-spacing:3px;color:var(–vi3);
+background:rgba(123,47,255,.07);
+position:relative;overflow:hidden;
+}
+.status-chip::before{
+content:’’;position:absolute;inset:0;
+background:linear-gradient(90deg,transparent,rgba(168,85,247,.2),transparent);
+animation:chipSweep 2.5s infinite;
+}
+@keyframes chipSweep{0%{transform:translateX(-100%)}100%{transform:translateX(100%)}}
+.chip-dot{
+width:6px;height:6px;border-radius:50%;
+background:var(–vi2);box-shadow:0 0 8px var(–vi2);
+animation:blink 1.4s infinite;
+}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.15}}
+
+/* BIG TITLE */
+.big-title{
+position:relative;line-height:.88;
+font-family:‘Orbitron’,monospace;
+font-size:clamp(4.5rem,14vw,10rem);
+font-weight:900;
+letter-spacing:-3px;
+}
+.bt-layer{
+background:linear-gradient(140deg,#fff 0%,#DDD6FE 20%,#A855F7 45%,#7B2FFF 60%,#4F86F7 80%,#BAE6FD 100%);
+-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+filter:drop-shadow(0 0 50px rgba(123,47,255,.9)) drop-shadow(0 0 100px rgba(79,134,247,.4));
+animation:titlePulse 5s ease-in-out infinite alternate;
+display:block;
+}
+@keyframes titlePulse{
+from{filter:drop-shadow(0 0 40px rgba(123,47,255,.8)) drop-shadow(0 0 80px rgba(79,134,247,.3))}
+to{filter:drop-shadow(0 0 80px rgba(168,85,247,1)) drop-shadow(0 0 140px rgba(79,134,247,.7))}
+}
+.bt-ghost{
+position:absolute;inset:0;pointer-events:none;
+font-family:‘Orbitron’,monospace;font-weight:900;font-size:inherit;letter-spacing:-3px;
+-webkit-text-fill-color:transparent;
+-webkit-text-stroke:1px rgba(168,85,247,.3);
+animation:glitch 9s infinite;
+}
+@keyframes glitch{
+0%,88%,100%{opacity:0;transform:none}
+89%{opacity:.8;transform:translate(-4px,2px);-webkit-text-stroke:1px #4F86F7;clip-path:polygon(0 15%,100% 15%,100% 35%,0 35%)}
+90%{opacity:.8;transform:translate(4px,-2px);-webkit-text-stroke:1px #A855F7;clip-path:polygon(0 60%,100% 60%,100% 80%,0 80%)}
+91%{opacity:0}
+}
+
+.tagline{
+font-family:‘Share Tech Mono’,monospace;
+font-size:.88rem;letter-spacing:6px;
+color:rgba(147,197,253,.45);
+text-transform:uppercase;
+}
+
+.hero-sub{
+font-size:1.1rem;color:rgba(192,132,252,.55);font-weight:300;
+max-width:540px;line-height:1.7;
+}
+.hero-sub strong{color:var(–vi3);font-weight:700}
+
+/* PLATFORM BUTTONS */
+.plat-btns{
+display:flex;gap:16px;flex-wrap:wrap;justify-content:center;
+margin-top:12px;
+}
+.pb{
+position:relative;border:none;cursor:none;
+border-radius:50px;
+transition:transform .4s cubic-bezier(.16,1,.3,1),box-shadow .4s;
+padding:2px;
+background:linear-gradient(135deg,var(–vi2),var(–bl2),var(–vi2));
+background-size:200%;
+animation:borderShift 4s linear infinite;
+}
+@keyframes borderShift{0%{background-position:0%}100%{background-position:200%}}
+.pb-inner{
+display:flex;align-items:center;gap:12px;
+padding:18px 40px;
+font-family:‘Tajawal’,sans-serif;font-size:1.1rem;font-weight:800;
+border-radius:48px;
+position:relative;z-index:2;letter-spacing:.5px;
+transition:filter .3s;
+}
+.pb.and .pb-inner{background:linear-gradient(135deg,#0C1E5E,#1A3FD4,#2558E8);color:#BFDBFE}
+.pb.ios .pb-inner{background:linear-gradient(135deg,#2D0770,#6A21D0,#7B2FFF);color:#EDE9FF}
+.pb:hover{transform:translateY(-8px) scale(1.04);box-shadow:0 20px 60px rgba(123,47,255,.55)}
+.pb:hover .pb-inner{filter:brightness(1.15)}
+
+/* SCROLL HINT */
+.scroll-hint{
+display:flex;flex-direction:column;align-items:center;gap:8px;
+padding-bottom:32px;
+font-family:‘Share Tech Mono’,monospace;
+font-size:.65rem;letter-spacing:3px;color:rgba(123,47,255,.4);
+animation:fadeHint 2s 2s ease both;
+}
+@keyframes fadeHint{from{opacity:0}to{opacity:1}}
+.scroll-arrow{
+width:1px;height:40px;
+background:linear-gradient(to bottom,rgba(123,47,255,.6),transparent);
+animation:scrollDown 1.5s ease-in-out infinite;
+}
+@keyframes scrollDown{0%,100%{transform:scaleY(1);opacity:.6}50%{transform:scaleY(1.3);opacity:1}}
+
+/* ══════════════════════════════════════
+DOWNLOADS PANEL (hidden by default)
+══════════════════════════════════════ */
+#dlPanel{
+display:none;
+background:var(–dark2);
+border-top:1px solid rgba(123,47,255,.2);
+padding:80px 48px;
+animation:panelIn .6s cubic-bezier(.16,1,.3,1);
+}
+#dlPanel.show{display:block}
+@keyframes panelIn{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+
+.panel-head{
+display:flex;align-items:center;gap:20px;
+margin-bottom:56px;
+}
+.panel-back{
+background:rgba(123,47,255,.1);border:1px solid rgba(123,47,255,.25);
+border-radius:50px;padding:10px 22px;
+font-family:‘Share Tech Mono’,monospace;font-size:.78rem;
+color:var(–vi3);cursor:none;
+transition:all .3s;letter-spacing:1px;
+}
+.panel-back:hover{background:rgba(123,47,255,.2);box-shadow:0 0 20px rgba(123,47,255,.3)}
+.panel-title{
+font-family:‘Orbitron’,monospace;
+font-size:clamp(1.4rem,4vw,2.2rem);font-weight:700;
+letter-spacing:2px;
+background:linear-gradient(90deg,var(–vi2),var(–bl2));
+-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+
+/* CARD GRID */
+.card-grid{
+display:grid;
+grid-template-columns:repeat(auto-fill,minmax(300px,1fr));
+gap:20px;
+margin-bottom:64px;
+}
+
+.dl-card{
+position:relative;border-radius:20px;overflow:hidden;
+padding:40px 28px 32px;text-align:center;
+cursor:none;
+transition:transform .4s cubic-bezier(.16,1,.3,1);
+isolation:isolate;
+}
+.dl-card-bg{
+position:absolute;inset:0;
+background:linear-gradient(145deg,rgba(123,47,255,.1),rgba(26,63,212,.07));
+border:1px solid rgba(123,47,255,.18);
+border-radius:20px;
+backdrop-filter:blur(24px);
+transition:border-color .3s,box-shadow .3s;
+}
+.dl-card:hover .dl-card-bg{
+border-color:rgba(168,85,247,.5);
+box-shadow:0 0 40px rgba(123,47,255,.25),inset 0 0 40px rgba(123,47,255,.05);
+}
+.dl-card:hover{transform:translateY(-16px)}
+
+/* top shimmer bar */
+.dl-card::before{
+content:’’;position:absolute;top:0;left:0;right:0;height:2px;z-index:2;
+background:linear-gradient(90deg,transparent,var(–vi2),var(–bl2),transparent);
+opacity:0;transition:opacity .4s;
+}
+.dl-card:hover::before{opacity:1}
+
+/* corner brackets */
+.dl-card .c{
+position:absolute;width:18px;height:18px;
+border-color:rgba(168,85,247,.5);border-style:solid;
+transition:all .35s;
+}
+.dl-card .c.tl{top:12px;right:12px;border-width:2px 0 0 2px;border-radius:2px 0 0 0}
+.dl-card .c.br{bottom:12px;left:12px;border-width:0 2px 2px 0;border-radius:0 0 2px 0}
+.dl-card:hover .c{width:26px;height:26px;border-color:var(–vi2)}
+
+.dl-card>*:not(.dl-card-bg):not(.c){position:relative;z-index:1}
+
+/* icon */
+.card-icon{
+font-size:4.8rem;display:block;margin-bottom:20px;
+filter:drop-shadow(0 0 18px rgba(123,47,255,.7));
+animation:iFloat 3.5s ease-in-out infinite;
+}
+@keyframes iFloat{0%,100%{transform:translateY(0) rotate(-3deg)}50%{transform:translateY(-14px) rotate(3deg)}}
+
+.card-name{
+font-family:‘Orbitron’,monospace;
+font-size:1.4rem;font-weight:700;
+color:#F0EBFF;margin-bottom:10px;letter-spacing:1px;
+}
+.card-ver{
+display:inline-block;
+background:rgba(79,134,247,.12);
+border:1px solid rgba(79,134,247,.3);
+color:var(–bl3);
+font-family:‘Share Tech Mono’,monospace;
+font-size:.75rem;padding:4px 14px;border-radius:20px;
+margin-bottom:28px;letter-spacing:.5px;
+}
+
+.dl-btn{
+width:100%;padding:15px;border:none;border-radius:50px;
+font-family:‘Tajawal’,sans-serif;font-size:1rem;font-weight:800;
+cursor:none;position:relative;
+letter-spacing:.5px;
+transition:transform .3s,box-shadow .3s,background .3s;
+background:linear-gradient(135deg,var(–vi),var(–bl));
+color:#fff;
+}
+.dl-btn-fill{display:none}
+.dl-btn-fill2{display:none}
+.dl-btn-txt{
+position:relative;z-index:1;color:#fff;
+display:flex;align-items:center;justify-content:center;gap:8px;
+}
+.dl-btn:hover{
+transform:scale(1.04);
+box-shadow:0 8px 32px rgba(123,47,255,.55);
+background:linear-gradient(135deg,var(–bl2),var(–vi2));
+}
+.dl-btn:active{transform:scale(.97)}
+
+/* ── FEATURES STRIP ── */
+.feat-strip{
+display:grid;
+grid-template-columns:repeat(auto-fill,minmax(200px,1fr));
+gap:16px;margin-top:20px;
+}
+.feat{
+padding:24px 20px;border-radius:12px;
+background:rgba(123,47,255,.05);
+border:1px solid rgba(123,47,255,.12);
+position:relative;overflow:hidden;
+transition:all .35s cubic-bezier(.16,1,.3,1);
+cursor:none;
+}
+.feat::after{
+content:’’;position:absolute;bottom:0;left:0;right:0;height:2px;
+background:linear-gradient(90deg,var(–vi),var(–bl2));
+transform:scaleX(0);transform-origin:right;transition:transform .35s;
+}
+.feat:hover::after{transform:scaleX(1);transform-origin:left}
+.feat:nth-child(odd){border-color:rgba(79,134,247,.12);background:rgba(26,63,212,.05)}
+.feat:hover{transform:translateY(-6px);border-color:rgba(168,85,247,.4);box-shadow:0 10px 30px rgba(123,47,255,.2)}
+.feat-num{
+font-family:‘Share Tech Mono’,monospace;font-size:.62rem;
+color:rgba(123,47,255,.3);letter-spacing:2px;margin-bottom:12px;
+}
+.feat-ico{font-size:2.4rem;display:block;margin-bottom:12px}
+.feat-name{
+font-family:‘Orbitron’,monospace;font-size:.9rem;font-weight:700;
+color:#EDE9FF;margin-bottom:6px;letter-spacing:.5px;
+}
+.feat-desc{color:rgba(192,132,252,.45);font-size:.83rem;line-height:1.65}
+
+/* ══════════════════════════════════════
+COMING SOON BAND
+══════════════════════════════════════ */
+.cs-band{
+position:relative;padding:100px 48px;text-align:center;overflow:hidden;
+background:radial-gradient(ellipse at 50% 100%,rgba(123,47,255,.12) 0%,transparent 70%);
+border-top:1px solid rgba(123,47,255,.12);
+border-bottom:1px solid rgba(123,47,255,.12);
+}
+.cs-hexes{position:absolute;inset:0;overflow:hidden;pointer-events:none}
+.hx{
+position:absolute;
+clip-path:polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%);
+border:1px solid rgba(123,47,255,.08);
+background:rgba(123,47,255,.02);
+animation:hxPulse 7s ease-in-out infinite;
+}
+@keyframes hxPulse{0%,100%{opacity:.15;transform:scale(1)}50%{opacity:.5;transform:scale(1.05)}}
+.cs-ico{
+font-size:5.5rem;display:block;margin-bottom:20px;
+filter:drop-shadow(0 0 28px rgba(123,47,255,.9));
+animation:iFloat 3s ease-in-out infinite;
+}
+.cs-title{
+font-family:‘Orbitron’,monospace;
+font-size:clamp(2rem,6vw,3.5rem);font-weight:900;
+letter-spacing:4px;text-transform:uppercase;
+background:linear-gradient(135deg,#fff,var(–vi3),var(–bl2),var(–bl3));
+-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+margin-bottom:12px;
+}
+.cs-sub{
+font-family:‘Share Tech Mono’,monospace;font-size:.78rem;
+letter-spacing:5px;color:rgba(123,47,255,.4);
+}
+
+/* WARN */
+.warn-bar{
+margin:48px 48px 0;border-radius:12px;
+padding:18px 28px;text-align:center;
+font-weight:700;font-size:1rem;
+color:var(–vi3);letter-spacing:.3px;
+background:rgba(123,47,255,.06);
+border:1px solid rgba(123,47,255,.25);
+position:relative;overflow:hidden;
+animation:warnGlow 4s ease-in-out infinite;
+}
+.warn-bar::before{
+content:’’;position:absolute;inset:0;
+background:linear-gradient(90deg,transparent,rgba(123,47,255,.1),transparent);
+animation:chipSweep 3.5s infinite;
+}
+@keyframes warnGlow{0%,100%{box-shadow:0 0 0 transparent}50%{box-shadow:0 0 30px rgba(123,47,255,.2)}}
+
+/* FOOTER */
+footer{
+padding:36px 48px 28px;
+border-top:1px solid rgba(123,47,255,.1);
+display:flex;align-items:center;justify-content:center;
+}
+footer p{
+font-family:‘Share Tech Mono’,monospace;font-size:.75rem;
+letter-spacing:3px;color:rgba(123,47,255,.25);
+}
+
+/* UTIL */
+.hidden{display:none!important}
+@media(max-width:700px){
+.hero,.cs-band,footer,.warn-bar{padding-left:20px;padding-right:20px}
+#dlPanel{padding:60px 20px}
+.pb-inner{padding:15px 28px;font-size:1rem}
+.big-title{font-size:clamp(3.5rem,18vw,7rem)}
+}
+</style>
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #1a1612;
-            color: #f5f1ed;
-            overflow-x: hidden;
-            min-height: 100vh;
-            position: relative;
-        }
-
-        .space-bg {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            background: linear-gradient(135deg, #2d2520 0%, #1a1612 50%, #0f0d0b 100%);
-        }
-
-        .animated-bg {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-        }
-
-        .gradient-orb {
-            position: absolute;
-            border-radius: 50%;
-            filter: blur(80px);
-            opacity: 0.15;
-            animation: floatOrb 20s infinite ease-in-out;
-        }
-
-        .orb1 {
-            width: 500px;
-            height: 500px;
-            background: radial-gradient(circle, #c69c6d, transparent);
-            top: -10%;
-            left: -10%;
-            animation-delay: 0s;
-        }
-
-        .orb2 {
-            width: 400px;
-            height: 400px;
-            background: radial-gradient(circle, #6b7280, transparent);
-            bottom: -10%;
-            right: -5%;
-            animation-delay: 5s;
-        }
-
-        .orb3 {
-            width: 600px;
-            height: 600px;
-            background: radial-gradient(circle, #4a90a4, transparent);
-            top: 30%;
-            right: -15%;
-            animation-delay: 10s;
-        }
-
-        .orb4 {
-            width: 450px;
-            height: 450px;
-            background: radial-gradient(circle, #b85450, transparent);
-            bottom: 20%;
-            left: 10%;
-            animation-delay: 15s;
-        }
-
-        @keyframes floatOrb {
-            0%, 100% { transform: translate(0, 0) scale(1); }
-            25% { transform: translate(50px, -30px) scale(1.1); }
-            50% { transform: translate(-30px, 50px) scale(0.9); }
-            75% { transform: translate(40px, 30px) scale(1.05); }
-        }
-
-        .stars {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-        }
-
-        .star {
-            position: absolute;
-            background: #f5f1ed;
-            border-radius: 50%;
-            animation: twinkle 3s infinite alternate ease-in-out;
-        }
-
-        @keyframes twinkle {
-            0% { opacity: 0.2; transform: scale(1) rotate(0deg); }
-            100% { opacity: 0.8; transform: scale(1.3) rotate(180deg); }
-        }
-
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 20px;
-            position: relative;
-            z-index: 1;
-        }
-
-        .header {
-            text-align: center;
-            padding: 60px 0 40px;
-            animation: slideDown 1.2s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        .logo {
-            font-size: 4.5rem;
-            font-weight: 900;
-            background: linear-gradient(135deg, #c69c6d 0%, #d4b896 25%, #6b7280 50%, #4a90a4 75%, #b85450 100%);
-            background-size: 200% 200%;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            animation: gradientShift 6s ease infinite, logoFloat 3s ease-in-out infinite;
-            filter: drop-shadow(0 4px 12px rgba(198, 156, 109, 0.3));
-            letter-spacing: 2px;
-        }
-
-        @keyframes gradientShift {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-        }
-
-        @keyframes logoFloat {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-        }
-
-        .subtitle {
-            font-size: 1.3rem;
-            margin-top: 15px;
-            color: #b8a894;
-            animation: fadeIn 1.8s ease-in;
-            font-weight: 500;
-        }
-
-        .lang-selector {
-            position: absolute;
-            top: 30px;
-            right: 30px;
-            display: flex;
-            gap: 10px;
-            background: rgba(198, 156, 109, 0.1);
-            border: 2px solid #c69c6d;
-            border-radius: 30px;
-            padding: 8px;
-            backdrop-filter: blur(10px);
-            animation: slideInRight 1s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        .lang-btn {
-            background: transparent;
-            border: none;
-            color: #b8a894;
-            padding: 10px 20px;
-            border-radius: 25px;
-            cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-            font-weight: 600;
-            font-size: 0.95rem;
-        }
-
-        .lang-btn.active {
-            background: linear-gradient(135deg, #c69c6d, #b8a894);
-            color: #1a1612;
-            transform: scale(1.05);
-            box-shadow: 0 4px 15px rgba(198, 156, 109, 0.4);
-        }
-
-        .device-selector {
-            display: flex;
-            justify-content: center;
-            gap: 40px;
-            margin: 80px 0 60px;
-            animation: slideUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.3s both;
-        }
-
-        .device-btn {
-            background: linear-gradient(135deg, #c69c6d 0%, #b8a894 100%);
-            border: none;
-            color: #1a1612;
-            padding: 25px 50px;
-            font-size: 1.4rem;
-            border-radius: 20px;
-            cursor: pointer;
-            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-            position: relative;
-            overflow: hidden;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            box-shadow: 0 8px 25px rgba(198, 156, 109, 0.3);
-        }
-
-        .device-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-            transition: left 0.6s;
-        }
-
-        .device-btn:hover::before {
-            left: 100%;
-        }
-
-        .device-btn:hover {
-            transform: translateY(-8px) scale(1.05);
-            box-shadow: 0 15px 40px rgba(198, 156, 109, 0.5);
-        }
-
-        .device-btn.android {
-            background: linear-gradient(135deg, #6b7280 0%, #8b9299 100%);
-            color: #f5f1ed;
-        }
-
-        .device-btn.android:hover {
-            box-shadow: 0 15px 40px rgba(107, 114, 128, 0.5);
-        }
-
-        .downloads {
-            display: none;
-            animation: fadeInUp 1s cubic-bezier(0.16, 1, 0.3, 1);
-            margin-top: 60px;
-        }
-
-        .downloads.active {
-            display: block;
-        }
-
-        .section-title {
-            text-align: center;
-            font-size: 2.5rem;
-            font-weight: 800;
-            margin-bottom: 50px;
-            background: linear-gradient(135deg, #c69c6d, #4a90a4);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            animation: fadeInUp 0.8s ease-out;
-        }
-
-        .download-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 40px;
-            margin-top: 50px;
-        }
-
-        .download-card {
-            background: rgba(198, 156, 109, 0.08);
-            border: 2px solid rgba(198, 156, 109, 0.2);
-            border-radius: 25px;
-            padding: 40px;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-            backdrop-filter: blur(20px);
-        }
-
-        .download-card::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(198, 156, 109, 0.15), transparent);
-            opacity: 0;
-            transition: opacity 0.5s ease;
-            z-index: 0;
-        }
-
-        .download-card:hover::before {
-            opacity: 1;
-            animation: rotate 4s linear infinite;
-        }
-
-        @keyframes rotate {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        .download-card:hover {
-            transform: translateY(-15px) scale(1.02);
-            border-color: #c69c6d;
-            box-shadow: 0 25px 50px rgba(198, 156, 109, 0.3);
-        }
-
-        .download-card > * {
-            position: relative;
-            z-index: 1;
-        }
-
-        .app-icon {
-            font-size: 5rem;
-            margin-bottom: 25px;
-            animation: bounce 2.5s infinite ease-in-out;
-            filter: drop-shadow(0 5px 15px rgba(198, 156, 109, 0.4));
-        }
-
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0) rotate(0deg); }
-            50% { transform: translateY(-15px) rotate(5deg); }
-        }
-
-        .app-name {
-            font-size: 1.8rem;
-            font-weight: 800;
-            margin-bottom: 15px;
-            color: #f5f1ed;
-            letter-spacing: 0.5px;
-        }
-
-        .app-version {
-            color: #b8a894;
-            margin-bottom: 30px;
-            font-size: 1rem;
-            font-weight: 500;
-        }
-
-        .download-btn {
-            background: linear-gradient(135deg, #4a90a4 0%, #3a7a8a 100%);
-            border: none;
-            color: #f5f1ed;
-            padding: 18px 40px;
-            font-size: 1.2rem;
-            border-radius: 15px;
-            cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-            position: relative;
-            overflow: hidden;
-            font-weight: 700;
-            width: 100%;
-            box-shadow: 0 8px 20px rgba(74, 144, 164, 0.3);
-        }
-
-        .download-btn::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            background: rgba(255, 255, 255, 0.3);
-            border-radius: 50%;
-            transition: all 0.5s ease;
-            transform: translate(-50%, -50%);
-        }
-
-        .download-btn:hover::after {
-            width: 400px;
-            height: 400px;
-        }
-
-        .download-btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 12px 30px rgba(74, 144, 164, 0.5);
-        }
-
-        .download-btn:active {
-            transform: scale(0.98);
-        }
-
-        .features-section {
-            margin-top: 80px;
-            padding: 60px 0;
-            background: rgba(198, 156, 109, 0.05);
-            border-radius: 30px;
-            border: 1px solid rgba(198, 156, 109, 0.1);
-        }
-
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 35px;
-            margin-top: 50px;
-            padding: 0 40px;
-        }
-
-        .feature-card {
-            background: rgba(107, 114, 128, 0.1);
-            border: 2px solid rgba(107, 114, 128, 0.2);
-            border-radius: 20px;
-            padding: 35px 30px;
-            text-align: center;
-            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-            backdrop-filter: blur(10px);
-        }
-
-        .feature-card:hover {
-            transform: translateY(-10px);
-            border-color: #6b7280;
-            box-shadow: 0 15px 35px rgba(107, 114, 128, 0.3);
-        }
-
-        .feature-icon {
-            font-size: 3.5rem;
-            margin-bottom: 20px;
-            display: inline-block;
-            animation: pulse 2s infinite ease-in-out;
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-        }
-
-        .feature-title {
-            font-size: 1.4rem;
-            font-weight: 700;
-            margin-bottom: 12px;
-            color: #f5f1ed;
-        }
-
-        .feature-desc {
-            color: #b8a894;
-            font-size: 1rem;
-            line-height: 1.6;
-        }
-
-        .random-scripts {
-            margin-top: 80px;
-            text-align: center;
-            padding: 100px 40px;
-            background: linear-gradient(135deg, rgba(184, 84, 80, 0.1), rgba(74, 144, 164, 0.1));
-            border-radius: 30px;
-            border: 2px solid rgba(184, 84, 80, 0.2);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .random-scripts::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: conic-gradient(from 0deg, transparent, rgba(184, 84, 80, 0.1), transparent 30%);
-            animation: rotate 8s linear infinite;
-        }
-
-        .random-scripts > * {
-            position: relative;
-            z-index: 1;
-        }
-
-        .coming-soon-icon {
-            font-size: 6rem;
-            margin-bottom: 30px;
-            animation: bounce 2s infinite ease-in-out;
-            filter: drop-shadow(0 5px 20px rgba(184, 84, 80, 0.4));
-        }
-
-        .coming-soon-text {
-            font-size: 2.5rem;
-            font-weight: 800;
-            background: linear-gradient(135deg, #b85450, #c69c6d, #4a90a4);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            animation: gradientShift 4s ease infinite;
-        }
-
-        .warning {
-            background: rgba(198, 156, 109, 0.1);
-            border: 2px solid #c69c6d;
-            border-radius: 20px;
-            padding: 30px;
-            margin: 60px 0;
-            color: #c69c6d;
-            text-align: center;
-            animation: warningPulse 3s infinite ease-in-out;
-            font-size: 1.1rem;
-            font-weight: 600;
-        }
-
-        @keyframes warningPulse {
-            0%, 100% { box-shadow: 0 0 15px rgba(198, 156, 109, 0.2); }
-            50% { box-shadow: 0 0 30px rgba(198, 156, 109, 0.4); }
-        }
-
-        .footer {
-            text-align: center;
-            margin-top: 100px;
-            padding: 40px 0;
-            border-top: 1px solid rgba(198, 156, 109, 0.2);
-            animation: fadeIn 2s ease-in;
-        }
-
-        .footer p {
-            color: #b8a894;
-            font-size: 1.1rem;
-            font-weight: 500;
-        }
-
-        @keyframes slideDown {
-            from { opacity: 0; transform: translateY(-60px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(60px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(40px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes slideInRight {
-            from { opacity: 0; transform: translateX(50px); }
-            to { opacity: 1; transform: translateX(0); }
-        }
-
-        .hidden { display: none; }
-
-        @media (max-width: 768px) {
-            .logo { font-size: 3rem; }
-            .subtitle { font-size: 1.1rem; }
-            .device-selector { flex-direction: column; align-items: center; gap: 25px; }
-            .device-btn { width: 100%; max-width: 300px; padding: 20px 40px; }
-            .download-grid { grid-template-columns: 1fr; }
-            .features-grid { grid-template-columns: 1fr; padding: 0 20px; }
-            .lang-selector { position: relative; top: 0; right: 0; margin-bottom: 30px; }
-            .section-title { font-size: 2rem; }
-            .coming-soon-text { font-size: 2rem; }
-        }
-    </style>
 </head>
 <body>
-    <div class="space-bg">
-        <div class="animated-bg">
-            <div class="gradient-orb orb1"></div>
-            <div class="gradient-orb orb2"></div>
-            <div class="gradient-orb orb3"></div>
-            <div class="gradient-orb orb4"></div>
-        </div>
-        <div class="stars" id="stars"></div>
-    </div>
 
-    <div class="container">
-        <div class="lang-selector">
-            <button class="lang-btn active" onclick="setLanguage('ar')">
-                <span>العربية</span>
-            </button>
-            <button class="lang-btn" onclick="setLanguage('en')">
-                <span>English</span>
-            </button>
-            <button class="lang-btn" onclick="setLanguage('es')">
-                <span>Español</span>
-            </button>
-            <button class="lang-btn" onclick="setLanguage('fr')">
-                <span>Français</span>
-            </button>
-        </div>
+<canvas id="cvs"></canvas>
 
-        <header class="header">
-            <h1 class="logo">
-                <span class="lang-ar">Delta & Krnl</span>
-                <span class="lang-en hidden">Delta & Krnl</span>
-                <span class="lang-es hidden">Delta & Krnl</span>
-                <span class="lang-fr hidden">Delta & Krnl</span>
-            </h1>
-            <p class="subtitle">
-                <span class="lang-ar">دائماً يوجي وترولكس وسبيد الافضل ~ UgiX - TrollX - TgX</span>
-                <span class="lang-en hidden">Always The Best ~ UgiX - Latest Update 2025</span>
-                <span class="lang-es hidden">Siempre Lo Mejor ~ UgiX - Última Actualización 2025</span>
-                <span class="lang-fr hidden">Toujours Le Meilleur ~ UgiX - Dernière Mise À Jour 2025</span>
-            </p>
-        </header>
+<div id="cDot"></div>
+<div id="cRing"></div>
 
-        <div class="device-selector">
-            <button class="device-btn android" onclick="showDownloads('android')">
-                📱 
-                <span class="lang-ar">أندرويد</span>
-                <span class="lang-en hidden">Android</span>
-                <span class="lang-es hidden">Android</span>
-                <span class="lang-fr hidden">Android</span>
-            </button>
-            <button class="device-btn" onclick="showDownloads('ios')">
-                🍎 
-                <span class="lang-ar">آيفون</span>
-                <span class="lang-en hidden">iPhone</span>
-                <span class="lang-es hidden">iPhone</span>
-                <span class="lang-fr hidden">iPhone</span>
-            </button>
-        </div>
+<div id="wrap">
 
-        <div class="downloads" id="android-downloads">
-            <h2 class="section-title">
-                <span class="lang-ar">تطبيقات الأندرويد</span>
-                <span class="lang-en hidden">Android Applications</span>
-                <span class="lang-es hidden">Aplicaciones Android</span>
-                <span class="lang-fr hidden">Applications Android</span>
-            </h2>
-            <div class="download-grid">
-                <div class="download-card">
-                    <div class="app-icon">🔺</div>
-                    <h3 class="app-name">
-                        <span class="lang-ar">دلتا للاندرويد</span>
-                        <span class="lang-en hidden">Delta for Android</span>
-                        <span class="lang-es hidden">Delta para Android</span>
-                        <span class="lang-fr hidden">Delta pour Android</span>
-                    </h3>
-                    <p class="app-version">v2.684.688</p>
-                    <button class="download-btn" onclick="downloadApp('delta-android')">
-                        <span class="lang-ar">تحميل الآن</span>
-                        <span class="lang-en hidden">Download Now</span>
-                        <span class="lang-es hidden">Descargar Ahora</span>
-                        <span class="lang-fr hidden">Télécharger</span>
-                    </button>
-                </div>
-                <div class="download-card">
-                    <div class="app-icon">⚡</div>
-                    <h3 class="app-name">
-                        <span class="lang-ar">كرنل للاندرويد</span>
-                        <span class="lang-en hidden">Krnl for Android</span>
-                        <span class="lang-es hidden">Krnl para Android</span>
-                        <span class="lang-fr hidden">Krnl pour Android</span>
-                    </h3>
-                    <p class="app-version">v2.684.688</p>
-                    <button class="download-btn" onclick="downloadApp('krnl-android')">
-                        <span class="lang-ar">تحميل الآن</span>
-                        <span class="lang-en hidden">Download Now</span>
-                        <span class="lang-es hidden">Descargar Ahora</span>
-                        <span class="lang-fr hidden">Télécharger</span>
-                    </button>
-                </div>
-      <div class="download-card">
-    <div class="app-icon">🇻🇳</div>
-    <h3 class="app-name">
-        <span class="lang-ar">كرنل فيتنامي</span>
-        <span class="lang-en hidden">Krnl Vietnam</span>
-        <span class="lang-es hidden">Krnl Vietnam</span>
-        <span class="lang-fr hidden">Krnl Vietnam</span>
-    </h3>
-    <p class="app-version">Vietnam Edition</p>
-    <button class="download-btn" onclick="downloadApp('krnl-vietnam-android')">
-        <span class="lang-ar">تحميل الآن</span>
-        <span class="lang-en hidden">Download Now</span>
-        <span class="lang-es hidden">Descargar Ahora</span>
-        <span class="lang-fr hidden">Télécharger</span>
-  </button>
+  <!-- ═══ HERO ═══ -->
+
+  <div class="hero">
+    <nav>
+      <div class="nav-logo">DK // EXECUTOR</div>
+      <div class="lang-row">
+        <button class="lb on" onclick="setL('ar',this)">العربية</button>
+        <button class="lb" onclick="setL('en',this)">English</button>
+        <button class="lb" onclick="setL('es',this)">Español</button>
+        <button class="lb" onclick="setL('fr',this)">Français</button>
+      </div>
+    </nav>
+
+```
+<div class="hero-centre">
+  <div class="status-chip">
+    <span class="chip-dot"></span>
+    <span class="la">ONLINE — 2026 — UPDATED</span>
+  </div>
+
+  <div class="big-title">
+    <div class="bt-ghost" aria-hidden="true">UgiX &amp;<br>Sandiha</div>
+    <span class="bt-layer">UgiX &amp;<br>Sandiha</span>
+  </div>
+
+  <span class="tagline">
+    <span class="lar">محرك السكربتات الأول · UgiX · TrollX · Sandiha</span>
+    <span class="len hidden">SCRIPTS EXECUTOR · UgiX · TrollX · Sandiha</span>
+    <span class="les hidden">EJECUTOR DE SCRIPTS · UgiX · TrollX · Sandiha</span>
+    <span class="lfr hidden">MOTEUR DE SCRIPTS · UgiX · TrollX · Sandiha</span>
+  </span>
+
+  <p class="hero-sub">
+    <span class="lar">اختر جهازك وحمّل الإصدار الأحدث — <strong>دائماً في القمة</strong></span>
+    <span class="len hidden">Choose your device and download the latest — <strong>always at the top</strong></span>
+    <span class="les hidden">Elige tu dispositivo y descarga lo último — <strong>siempre en la cima</strong></span>
+    <span class="lfr hidden">Choisissez votre appareil — <strong>toujours au sommet</strong></span>
+  </p>
+
+  <div class="plat-btns">
+    <button class="pb and" onclick="openPanel('android')">
+      <div class="pb-inner">
+        📱&ensp;
+        <span class="lar">أندرويد</span><span class="len hidden">Android</span><span class="les hidden">Android</span><span class="lfr hidden">Android</span>
+      </div>
+    </button>
+    <button class="pb ios" onclick="openPanel('ios')">
+      <div class="pb-inner">
+        🍎&ensp;
+        <span class="lar">آيفون</span><span class="len hidden">iPhone</span><span class="les hidden">iPhone</span><span class="lfr hidden">iPhone</span>
+      </div>
+    </button>
+  </div>
 </div>
-            </div>  
-            <div class="features-section">
-                <h3 class="section-title">
-                    <span class="lang-ar">لماذا نختار كرنل ودلتا ؟</span>
-                    <span class="lang-en hidden">Why Choose Krnl for Android?</span>
-                    <span class="lang-es hidden">¿Por Qué Elegir Krnl para Android?</span>
-                    <span class="lang-fr hidden">Pourquoi Choisir Krnl pour Android?</span>
-                </h3>
-                <div class="features-grid">
-                    <div class="feature-card">
-                        <div class="feature-icon">🔒</div>
-                        <h4 class="feature-title">
-                            <span class="lang-ar">تثبيت آمن</span>
-                            <span class="lang-en hidden">Secure Installation</span>
-                            <span class="lang-es hidden">Instalación Segura</span>
-                            <span class="lang-fr hidden">Installation Sécurisée</span>
-                        </h4>
-                        <p class="feature-desc">
-                            <span class="lang-ar">منصتنا تستخدم التشفير المتقدم وإجراءات الأمان لضمان تثبيت آمن للتطبيقات في كل مرة</span>
-                            <span class="lang-en hidden">Our platform uses advanced encryption and security measures to ensure safe app installation every time</span>
-                            <span class="lang-es hidden">Nuestra plataforma utiliza cifrado avanzado y medidas de seguridad para garantizar una instalación segura</span>
-                            <span class="lang-fr hidden">Notre plateforme utilise un cryptage avancé et des mesures de sécurité pour garantir une installation sûre</span>
-                        </p>
-                    </div>
-                    <div class="feature-card">
-                        <div class="feature-icon">🔄</div>
-                        <h4 class="feature-title">
-                            <span class="lang-ar">تحديثات منتظمة</span>
-                            <span class="lang-en hidden">Regular Updates</span>
-                            <span class="lang-es hidden">Actualizaciones Regulares</span>
-                            <span class="lang-fr hidden">Mises À Jour Régulières</span>
-                        </h4>
-                        <p class="feature-desc">
-                            <span class="lang-ar">ابق محدثاً مع التحديثات التلقائية والتحسينات المستمرة لتطبيقاتك المفضلة</span>
-                            <span class="lang-en hidden">Stay current with automatic updates and continuous improvements to your favorite apps</span>
-                            <span class="lang-es hidden">Mantente actualizado con actualizaciones automáticas y mejoras continuas</span>
-                            <span class="lang-fr hidden">Restez à jour avec les mises à jour automatiques et les améliorations continues</span>
-                        </p>
-                    </div>
-                    <div class="feature-card">
-                        <div class="feature-icon">📱</div>
-                        <h4 class="feature-title">
-                            <span class="lang-ar">توافق واسع</span>
-                            <span class="lang-en hidden">Wide Compatibility</span>
-                            <span class="lang-es hidden">Amplia Compatibilidad</span>
-                            <span class="lang-fr hidden">Large Compatibilité</span>
-                        </h4>
-                        <p class="feature-desc">
-                            <span class="lang-ar">دعم لإصدارات وأجهزة أندرويد المختلفة، مما يضمن سهولة الوصول الواسعة</span>
-                            <span class="lang-en hidden">Support for various Android versions and devices, ensuring broad accessibility</span>
-                            <span class="lang-es hidden">Soporte para varias versiones y dispositivos Android, garantizando amplia accesibilidad</span>
-                            <span class="lang-fr hidden">Support pour diverses versions et appareils Android, assurant une large accessibilité</span>
-                        </p>
-                    </div>
-                    <div class="feature-card">
-                        <div class="feature-icon">⚡</div>
-                        <h4 class="feature-title">
-                            <span class="lang-ar">سرعة تنزيل فائقة</span>
-                            <span class="lang-en hidden">Fast Download Speeds</span>
-                            <span class="lang-es hidden">Velocidades Rápidas</span>
-                            <span class="lang-fr hidden">Vitesses Rapides</span>
-                        </h4>
-                        <p class="feature-desc">
-                            <span class="lang-ar">خوادم محسّنة تضمن تنزيلات سريعة وموثوقة لجميع المستخدمين</span>
-                            <span class="lang-en hidden">Optimized servers ensure quick and reliable downloads for all users</span>
-                            <span class="lang-es hidden">Servidores optimizados garantizan descargas rápidas y confiables</span>
-                            <span class="lang-fr hidden">Serveurs optimisés garantissent des téléchargements rapides et fiables</span>
-                        </p>
+
+<div class="scroll-hint">
+  <span class="la">SCROLL</span>
+  <div class="scroll-arrow"></div>
 </div>
-                </div>
-            </div>
-        </div>
+```
 
-        <div class="downloads" id="ios-downloads">
-            <h2 class="section-title">
-                <span class="lang-ar">تطبيقات الآيفون</span>
-                <span class="lang-en hidden">iPhone Applications</span>
-                <span class="lang-es hidden">Aplicaciones iPhone</span>
-                <span class="lang-fr hidden">Applications iPhone</span>
-            </h2>
-            <div class="download-grid">
-                <div class="download-card">
-                    <div class="app-icon">🔺</div>
-                    <h3 class="app-name">
-                        <span class="lang-ar">دلتا للايفون</span>
-                        <span class="lang-en hidden">Delta for iPhone</span>
-                        <span class="lang-es hidden">Delta para iPhone</span>
-                        <span class="lang-fr hidden">Delta pour iPhone</span>
-                    </h3>
-                    <p class="app-version">v21.0</p>
-                    <button class="download-btn" onclick="downloadApp('delta-ios')">
-                        <span class="lang-ar">تثبيت الآن</span>
-                        <span class="lang-en hidden">Install Now</span>
-                        <span class="lang-es hidden">Instalar Ahora</span>
-                        <span class="lang-fr hidden">Installer</span>
-                    </button>
-                </div>
-                <div class="download-card">
-                    <div class="app-icon">⚡</div>
-                    <h3 class="app-name">
-                        <span class="lang-ar">كرنل للايفون</span>
-                        <span class="lang-en hidden">Krnl for iPhone</span>
-                        <span class="lang-es hidden">Krnl para iPhone</span>
-                        <span class="lang-fr hidden">Krnl pour iPhone</span>
-                    </h3>
-                    <p class="app-version">iOS Version</p>
-                    <button class="download-btn" onclick="downloadApp('krnl-ios')">
-                        <span class="lang-ar">تثبيت الآن</span>
-                        <span class="lang-en hidden">Install Now</span>
-                        <span class="lang-es hidden">Instalar Ahora</span>
-                        <span class="lang-fr hidden">Installer</span>
-                    </button>
-                </div>
-            </div>
+  </div>
 
-            <div class="features-section">
-                <h3 class="section-title">
-                    <span class="lang-ar">لماذا تختار كرنل ودلتا؟</span>
-                    <span class="lang-en hidden">Why Choose Krnl for iOS?</span>
-                    <span class="lang-es hidden">¿Por Qué Elegir Krnl para iOS?</span>
-                    <span class="lang-fr hidden">Pourquoi Choisir Krnl pour iOS?</span>
-                </h3>
-                <div class="features-grid">
-                    <div class="feature-card">
-                        <div class="feature-icon">🔒</div>
-                        <h4 class="feature-title">
-                            <span class="lang-ar">تثبيت آمن</span>
-                            <span class="lang-en hidden">Secure Installation</span>
-                            <span class="lang-es hidden">Instalación Segura</span>
-                            <span class="lang-fr hidden">Installation Sécurisée</span>
-                        </h4>
-                        <p class="feature-desc">
-                            <span class="lang-ar">منصتنا تستخدم التشفير المتقدم وإجراءات الأمان لضمان تثبيت آمن للتطبيقات في كل مرة</span>
-                            <span class="lang-en hidden">Our platform uses advanced encryption and security measures to ensure safe app installation every time</span>
-                            <span class="lang-es hidden">Nuestra plataforma utiliza cifrado avanzado y medidas de seguridad para garantizar una instalación segura</span>
-                            <span class="lang-fr hidden">Notre plateforme utilise un cryptage avancé et des mesures de sécurité pour garantir une installation sûre</span>
-                        </p>
-                    </div>
-                    <div class="feature-card">
-                        <div class="feature-icon">🔄</div>
-                        <h4 class="feature-title">
-                            <span class="lang-ar">تحديثات منتظمة</span>
-                            <span class="lang-en hidden">Regular Updates</span>
-                            <span class="lang-es hidden">Actualizaciones Regulares</span>
-                            <span class="lang-fr hidden">Mises À Jour Régulières</span>
-                        </h4>
-                        <p class="feature-desc">
-                            <span class="lang-ar">ابق محدثاً مع التحديثات التلقائية والتحسينات المستمرة لتطبيقاتك المفضلة</span>
-                            <span class="lang-en hidden">Stay current with automatic updates and continuous improvements to your favorite apps</span>
-                            <span class="lang-es hidden">Mantente actualizado con actualizaciones automáticas y mejoras continuas</span>
-                            <span class="lang-fr hidden">Restez à jour avec les mises à jour automatiques et les améliorations continues</span>
-                        </p>
-                    </div>
-                    <div class="feature-card">
-                        <div class="feature-icon">📱</div>
-                        <h4 class="feature-title">
-                            <span class="lang-ar">توافق واسع</span>
-                            <span class="lang-en hidden">Wide Compatibility</span>
-                            <span class="lang-es hidden">Amplia Compatibilidad</span>
-                            <span class="lang-fr hidden">Large Compatibilité</span>
-                        </h4>
-                        <p class="feature-desc">
-                            <span class="lang-ar">دعم لإصدارات iOS والأجهزة المختلفة، مما يضمن سهولة الوصول الواسعة</span>
-                            <span class="lang-en hidden">Support for various iOS versions and devices, ensuring broad accessibility</span>
-                            <span class="lang-es hidden">Soporte para varias versiones de iOS y dispositivos, garantizando amplia accesibilidad</span>
-                            <span class="lang-fr hidden">Support pour diverses versions iOS et appareils, assurant une large accessibilité</span>
-                        </p>
-                    </div>
-                    <div class="feature-card">
-                        <div class="feature-icon">⚡</div>
-                        <h4 class="feature-title">
-                            <span class="lang-ar">سرعة تنزيل فائقة</span>
-                            <span class="lang-en hidden">Fast Download Speeds</span>
-                            <span class="lang-es hidden">Velocidades Rápidas</span>
-                            <span class="lang-fr hidden">Vitesses Rapides</span>
-                        </h4>
-                        <p class="feature-desc">
-                            <span class="lang-ar">خوادم محسّنة تضمن تنزيلات سريعة وموثوقة لجميع المستخدمين</span>
-                            <span class="lang-en hidden">Optimized servers ensure quick and reliable downloads for all users</span>
-                            <span class="lang-es hidden">Servidores optimizados garantizan descargas rápidas y confiables</span>
-                            <span class="lang-fr hidden">Serveurs optimisés garantissent des téléchargements rapides et fiables</span>
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
+  <!-- ═══ DOWNLOAD PANEL ═══ -->
 
-        <div class="random-scripts">
-            <div class="coming-soon-icon">🎮</div>
-            <h2 class="coming-soon-text">
-                <span class="lang-ar">سكربتات عشوائية - قريباً</span>
-                <span class="lang-en hidden">Random Scripts - Coming Soon</span>
-                <span class="lang-es hidden">Scripts Aleatorios - Próximamente</span>
-                <span class="lang-fr hidden">Scripts Aléatoires - Bientôt</span>
-            </h2>
-        </div>
+  <div id="dlPanel">
 
-        <div class="warning">
-            <span class="lang-ar">⚠️ تأكد من تمكين "المصادر غير المعروفة" في إعدادات الأندرويد قبل التثبيت</span>
-            <span class="lang-en hidden">⚠️ Make sure to enable "Unknown Sources" in Android settings before installation</span>
-            <span class="lang-es hidden">⚠️ Asegúrate de habilitar "Fuentes Desconocidas" en la configuración de Android antes de la instalación</span>
-            <span class="lang-fr hidden">⚠️ Assurez-vous d'activer "Sources Inconnues" dans les paramètres Android avant l'installation</span>
-        </div>
+```
+<div class="panel-head">
+  <button class="panel-back" onclick="closePanel()">← <span class="lar">رجوع</span><span class="len hidden">BACK</span><span class="les hidden">VOLVER</span><span class="lfr hidden">RETOUR</span></button>
+  <h2 class="panel-title" id="panelTitle"></h2>
+</div>
 
-        <footer class="footer">
-            <p>
-                <span class="lang-ar">© 2025 Delta & Krnl Executor - جميع الحقوق محفوظة</span>
-                <span class="lang-en hidden">© 2025 Delta & Krnl Executor - All Rights Reserved</span>
-                <span class="lang-es hidden">© 2025 Delta & Krnl Executor - Todos Los Derechos Reservados</span>
-                <span class="lang-fr hidden">© 2025 Delta & Krnl Executor - Tous Droits Réservés</span>
-            </p>
-        </footer>
+<!-- ANDROID CARDS -->
+<div id="aCards" class="card-grid hidden">
+  <div class="dl-card">
+    <div class="dl-card-bg"></div>
+    <div class="c tl"></div><div class="c br"></div>
+    <span class="card-icon" style="animation-delay:0s">🔺</span>
+    <div class="card-name"><span class="lar">دلتا</span><span class="len hidden">Delta</span><span class="les hidden">Delta</span><span class="lfr hidden">Delta</span></div>
+    <div class="card-ver">2.710.707</div>
+    <button class="dl-btn" onclick="dl('delta-android',event)">
+      <div class="dl-btn-fill"></div><div class="dl-btn-fill2"></div>
+      <span class="dl-btn-txt">⬇&ensp;<span class="lar">تحميل الآن</span><span class="len hidden">Download Now</span><span class="les hidden">Descargar</span><span class="lfr hidden">Télécharger</span></span>
+    </button>
+  </div>
+  <div class="dl-card" style="opacity:.65">
+    <div class="dl-card-bg" style="border-color:rgba(255,60,60,.2)"></div>
+    <div class="c tl" style="border-color:rgba(255,100,100,.4)"></div><div class="c br" style="border-color:rgba(255,100,100,.4)"></div>
+    <span class="card-icon" style="animation-delay:.6s;filter:grayscale(.7)">⚡</span>
+    <div class="card-name"><span class="lar">كرنل</span><span class="len hidden">Krnl</span><span class="les hidden">Krnl</span><span class="lfr hidden">Krnl</span></div>
+    <div class="card-ver" style="background:rgba(255,60,60,.1);border-color:rgba(255,80,80,.3);color:#fca5a5"><span class="lar">متوقف</span><span class="len hidden">Discontinued</span><span class="les hidden">Descontinuado</span><span class="lfr hidden">Abandonné</span></div>
+    <div style="font-size:.82rem;color:rgba(252,165,165,.55);line-height:1.5;margin-bottom:12px;font-family:'Share Tech Mono',monospace;letter-spacing:.3px">
+      <span class="lar">الشركة أوقفت التحديثات</span><span class="len hidden">Company stopped updates</span><span class="les hidden">La empresa detuvo actualizaciones</span><span class="lfr hidden">La société a arrêté les mises à jour</span>
     </div>
+    <button class="dl-btn" disabled style="opacity:.4;cursor:not-allowed;background:rgba(255,60,60,.2)">
+      <span class="dl-btn-txt" style="color:rgba(255,150,150,.7)"><span class="lar">غير متاح</span><span class="len hidden">Unavailable</span><span class="les hidden">No disponible</span><span class="lfr hidden">Indisponible</span></span>
+    </button>
+  </div>
+  <div class="dl-card">
+    <div class="dl-card-bg"></div>
+    <div class="c tl"></div><div class="c br"></div>
+    <span class="card-icon" style="animation-delay:1.2s">🇻🇳</span>
+    <div class="card-name"><span class="lar">دلتا فيتنامي</span><span class="len hidden">Delta VN</span><span class="les hidden">Delta VN</span><span class="lfr hidden">Delta VN</span></div>
+    <div class="card-ver">VNG v2.711</div>
+    <button class="dl-btn" onclick="dl('delta-vn-android',event)">
+      <div class="dl-btn-fill"></div><div class="dl-btn-fill2"></div>
+      <span class="dl-btn-txt">⬇&ensp;<span class="lar">تحميل الآن</span><span class="len hidden">Download Now</span><span class="les hidden">Descargar</span><span class="lfr hidden">Télécharger</span></span>
+    </button>
+  </div>
+</div>
 
-    <script>
-        const downloadLinks = {
-            'delta-android': 'https://cdn.gloopup.net/file/Delta-2.698.941.apk',
-            'krnl-android': 'https://krnl.filenetwork.vip/file/krnl_release_2.697.926_2025.11.2_53.apk',
-            'krnl-vietnam-android': 'https://krnl.filenetwork.vip/file/krnl_vng_release_2.696.799_2025.11.1_31.apk',
-            'delta-ios': 'itms-services://?action=download-manifest&url=https%3A%2F%2Fdeltaios-executor.com%2FInstall21.plist',
-            'krnl-ios': 'itms-services://?action=download-manifest&url=https://krnl-ios.com/Install2.plist'
-        };
+<!-- iOS CARDS -->
+<div id="iCards" class="card-grid hidden">
+  <div class="dl-card">
+    <div class="dl-card-bg"></div>
+    <div class="c tl"></div><div class="c br"></div>
+    <span class="card-icon">🔺</span>
+    <div class="card-name"><span class="lar">دلتا</span><span class="len hidden">Delta</span><span class="les hidden">Delta</span><span class="lfr hidden">Delta</span></div>
+    <div class="card-ver">Latest</div>
+    <button class="dl-btn" onclick="dl('delta-ios',event)">
+      <div class="dl-btn-fill"></div><div class="dl-btn-fill2"></div>
+      <span class="dl-btn-txt">⬇&ensp;<span class="lar">تثبيت الآن</span><span class="len hidden">Install Now</span><span class="les hidden">Instalar</span><span class="lfr hidden">Installer</span></span>
+    </button>
+  </div>
+  <div class="dl-card" style="opacity:.65">
+    <div class="dl-card-bg" style="border-color:rgba(255,60,60,.2)"></div>
+    <div class="c tl" style="border-color:rgba(255,100,100,.4)"></div><div class="c br" style="border-color:rgba(255,100,100,.4)"></div>
+    <span class="card-icon" style="animation-delay:.6s;filter:grayscale(.7)">⚡</span>
+    <div class="card-name"><span class="lar">كرنل</span><span class="len hidden">Krnl</span><span class="les hidden">Krnl</span><span class="lfr hidden">Krnl</span></div>
+    <div class="card-ver" style="background:rgba(255,60,60,.1);border-color:rgba(255,80,80,.3);color:#fca5a5"><span class="lar">متوقف</span><span class="len hidden">Discontinued</span><span class="les hidden">Descontinuado</span><span class="lfr hidden">Abandonné</span></div>
+    <div style="font-size:.82rem;color:rgba(252,165,165,.55);line-height:1.5;margin-bottom:12px;font-family:'Share Tech Mono',monospace;letter-spacing:.3px">
+      <span class="lar">الشركة أوقفت التحديثات</span><span class="len hidden">Company stopped updates</span><span class="les hidden">La empresa detuvo actualizaciones</span><span class="lfr hidden">La société a arrêté les mises à jour</span>
+    </div>
+    <button class="dl-btn" disabled style="opacity:.4;cursor:not-allowed;background:rgba(255,60,60,.2)">
+      <span class="dl-btn-txt" style="color:rgba(255,150,150,.7)"><span class="lar">غير متاح</span><span class="len hidden">Unavailable</span><span class="les hidden">No disponible</span><span class="lfr hidden">Indisponible</span></span>
+    </button>
+  </div>
+  <div class="dl-card">
+    <div class="dl-card-bg"></div>
+    <div class="c tl"></div><div class="c br"></div>
+    <span class="card-icon" style="animation-delay:1.2s">🇻🇳</span>
+    <div class="card-name"><span class="lar">دلتا فيتنامي</span><span class="len hidden">Delta VN</span><span class="les hidden">Delta VN</span><span class="lfr hidden">Delta VN</span></div>
+    <div class="card-ver">VNG Edition</div>
+    <button class="dl-btn" onclick="dl('delta-vn-ios',event)">
+      <div class="dl-btn-fill"></div><div class="dl-btn-fill2"></div>
+      <span class="dl-btn-txt">⬇&ensp;<span class="lar">تثبيت الآن</span><span class="len hidden">Install Now</span><span class="les hidden">Instalar</span><span class="lfr hidden">Installer</span></span>
+    </button>
+  </div>
+</div>
 
-        let currentLang = 'ar';
+<!-- FEATURES -->
+<div class="feat-strip">
+  <div class="feat">
+    <div class="feat-num">01 /</div>
+    <span class="feat-ico">🔒</span>
+    <div class="feat-name"><span class="lar">تثبيت آمن</span><span class="len hidden">Secure</span><span class="les hidden">Seguro</span><span class="lfr hidden">Sécurisé</span></div>
+    <p class="feat-desc"><span class="lar">تشفير متقدم وحماية كاملة</span><span class="len hidden">Advanced encryption & full protection</span><span class="les hidden">Cifrado avanzado y protección total</span><span class="lfr hidden">Chiffrement avancé et protection totale</span></p>
+  </div>
+  <div class="feat">
+    <div class="feat-num">02 /</div>
+    <span class="feat-ico">🔄</span>
+    <div class="feat-name"><span class="lar">تحديثات تلقائية</span><span class="len hidden">Auto Updates</span><span class="les hidden">Actualizaciones</span><span class="lfr hidden">Mises À Jour</span></div>
+    <p class="feat-desc"><span class="lar">دائماً أحدث إصدار</span><span class="len hidden">Always the latest version</span><span class="les hidden">Siempre la última versión</span><span class="lfr hidden">Toujours la dernière version</span></p>
+  </div>
+  <div class="feat">
+    <div class="feat-num">03 /</div>
+    <span class="feat-ico">📱</span>
+    <div class="feat-name"><span class="lar">توافق واسع</span><span class="len hidden">Compatible</span><span class="les hidden">Compatible</span><span class="lfr hidden">Compatible</span></div>
+    <p class="feat-desc"><span class="lar">يعمل على جميع الأجهزة</span><span class="len hidden">Works on all devices</span><span class="les hidden">Funciona en todos los dispositivos</span><span class="lfr hidden">Fonctionne sur tous les appareils</span></p>
+  </div>
+  <div class="feat">
+    <div class="feat-num">04 /</div>
+    <span class="feat-ico">⚡</span>
+    <div class="feat-name"><span class="lar">سرعة خاطفة</span><span class="len hidden">Lightning Fast</span><span class="les hidden">Ultra Rápido</span><span class="lfr hidden">Ultra Rapide</span></div>
+    <p class="feat-desc"><span class="lar">خوادم محسّنة عالميًا</span><span class="len hidden">Globally optimized servers</span><span class="les hidden">Servidores optimizados</span><span class="lfr hidden">Serveurs optimisés</span></p>
+  </div>
+</div>
+```
 
-        function createStars() {
-            const starsContainer = document.getElementById('stars');
-            const starCount = 200;
+  </div>
 
-            for (let i = 0; i < starCount; i++) {
-                const star = document.createElement('div');
-                star.className = 'star';
-                
-                const size = Math.random() * 3 + 1;
-                star.style.width = size + 'px';
-                star.style.height = size + 'px';
-                star.style.left = Math.random() * 100 + '%';
-                star.style.top = Math.random() * 100 + '%';
-                star.style.animationDelay = Math.random() * 3 + 's';
-                star.style.animationDuration = (Math.random() * 4 + 2) + 's';
-                
-                starsContainer.appendChild(star);
-            }
-        }
+  <!-- ═══ COMING SOON ═══ -->
 
-        function showDownloads(deviceType) {
-            document.querySelectorAll('.downloads').forEach(div => {
-                div.classList.remove('active');
-            });
-            
-            const targetDiv = document.getElementById(deviceType + '-downloads');
-            targetDiv.classList.add('active');
-            
-            targetDiv.style.animation = 'none';
-            setTimeout(() => {
-                targetDiv.style.animation = 'fadeInUp 1s cubic-bezier(0.16, 1, 0.3, 1)';
-            }, 10);
+  <div class="cs-band">
+    <div class="cs-hexes" id="hexes"></div>
+    <span class="cs-ico">🎮</span>
+    <h2 class="cs-title">
+      <span class="lar">سكربتات عشوائية</span>
+      <span class="len hidden">Random Scripts</span>
+      <span class="les hidden">Scripts Aleatorios</span>
+      <span class="lfr hidden">Scripts Aléatoires</span>
+    </h2>
+    <p class="cs-sub">// COMING SOON //</p>
+  </div>
 
-            targetDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-        }
+  <div class="warn-bar">
+    <span class="lar">⚠ تأكد من تفعيل «المصادر غير المعروفة» في إعدادات أندرويد قبل التثبيت</span>
+    <span class="len hidden">⚠ Enable "Unknown Sources" in Android settings before installing</span>
+    <span class="les hidden">⚠ Activa "Fuentes Desconocidas" en Android antes de instalar</span>
+    <span class="lfr hidden">⚠ Activez "Sources Inconnues" dans Android avant d'installer</span>
+  </div>
 
-        function downloadApp(appType) {
-            const link = downloadLinks[appType];
-            if (link) {
-                const tempLink = document.createElement('a');
-                tempLink.href = link;
-                tempLink.style.display = 'none';
-                tempLink.target = '_blank';
-                document.body.appendChild(tempLink);
-                tempLink.click();
-                document.body.removeChild(tempLink);
-                
-                event.target.style.transform = 'scale(0.95)';
-                setTimeout(() => {
-                    event.target.style.transform = 'scale(1)';
-                }, 200);
-            }
-        }
+  <footer>
+    <p>© 2026 &nbsp;·&nbsp; UgiX &amp; Sandiha &nbsp;·&nbsp; TrollX &nbsp;·&nbsp; DELTA &amp; KRNL EXECUTOR</p>
+  </footer>
 
-        function setLanguage(lang) {
-            currentLang = lang;
-            
-            document.querySelectorAll('[class^="lang-"]').forEach(el => {
-    
-    if (!el.closest('.lang-selector')) {
-        el.classList.add('hidden');
-    }
+</div>
+
+<script>
+const LINKS={
+  'delta-android':'https://download2434.mediafire.com/w604q834qj7gqAni4X6yFnUkLcKMcm2a0F527rhD7iz8YtyZ4Nh48qmfqZolTAlHIgr65cuiDegU17rY4vlB-U9A7WEwSk7eK087n3jIzZGYLhrawTt2qkuKCKckbsqgZniwsGV-RpFaRrGYjjGPiZP9nc7lVnDjDALPL9RJ22VueMQ/kp2aye94lpwj4sj/Delta-2.710.707-02.apk',
+  'delta-vn-android':'https://download2436.mediafire.com/vy62c7hbykagxr9p_Kxb4EY-SAQkn7Vzr9M-OWjHT9Ty36imMAQEFYmttUtKWcIi7ZDEGNszB_E9PN_DDHYj0m2fkW6ZHUiiS1XsD6ibIQoXAA90Y1s5RndoUWme0OYA8epJnAO57xQrlI4FjO_B_WQuOSikaeGhA_IqLRyIcq5TI2w/rucrvy087zrm91s/Delta+VNG+v2.711.apk',
+  'delta-ios':'itms-services://?action=download-manifest&url=https://delta.bz/manifest.plist',
+  'delta-vn-ios':'itms-services://?action=download-manifest&url=https://khoindvn.io.vn/document/Delta.plist'
+};
+
+/* ─ CURSOR ─ */
+const dot=document.getElementById('cDot'),ring=document.getElementById('cRing');
+let mx=window.innerWidth/2,my=window.innerHeight/2,rx=mx,ry=my;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;dot.style.left=mx+'px';dot.style.top=my+'px'});
+(function lp(){rx+=(mx-rx)*.11;ry+=(my-ry)*.11;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(lp)})();
+
+/* ─ CANVAS PARTICLE NET ─ */
+const cv=document.getElementById('cvs'),cx=cv.getContext('2d');
+let W,H;
+const resize=()=>{W=cv.width=innerWidth;H=cv.height=innerHeight};
+resize();addEventListener('resize',resize);
+
+const N=20,pts=[];
+for(let i=0;i<N;i++)pts.push({
+  x:Math.random()*1920,y:Math.random()*1080,
+  vx:(Math.random()-.5)*.4,vy:(Math.random()-.5)*.4,
+  r:Math.random()*1.4+.4,
+  col:Math.random()>.5?'123,47,255':'26,63,212'
 });
-            
-            document.querySelectorAll('.lang-' + lang).forEach(el => {
-                el.classList.remove('hidden');
-            });
 
-            document.querySelectorAll('.lang-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            event.target.closest('.lang-btn').classList.add('active');
+const sparks=[];
+for(let i=0;i<40;i++)sparks.push({
+  x:Math.random()*1920,y:Math.random()*1080,
+  vx:(Math.random()-.5)*.3,vy:(Math.random()-.5)*.3,
+  r:Math.random()*.9+.2,
+  life:Math.random(),ml:Math.random()*.012+.003,
+  col:Math.random()>.5?'123,47,255':'26,63,212'
+});
 
-            if (lang === 'ar') {
-                document.documentElement.lang = 'ar';
-                document.documentElement.dir = 'rtl';
-            } else {
-                document.documentElement.lang = lang;
-                document.documentElement.dir = 'ltr';
-            }
-        }
+let lastT=0;
+function frame(t){
+  if(t-lastT<32){requestAnimationFrame(frame);return}
+  lastT=t;
+  cx.clearRect(0,0,W,H);
 
-        document.addEventListener('contextmenu', e => e.preventDefault());
-        document.addEventListener('selectstart', e => e.preventDefault());
-        document.addEventListener('dragstart', e => e.preventDefault());
+  pts.forEach(p=>{
+    p.x+=p.vx;p.y+=p.vy;
+    if(p.x<0||p.x>W)p.vx*=-1;
+    if(p.y<0||p.y>H)p.vy*=-1;
+  });
 
-        let longPressTimer;
-        document.addEventListener('touchstart', e => {
-            longPressTimer = setTimeout(() => {
-                e.preventDefault();
-            }, 500);
-        });
+  for(let i=0;i<N;i++)for(let j=i+1;j<N;j++){
+    const dx=pts[i].x-pts[j].x,dy=pts[i].y-pts[j].y;
+    const d=Math.hypot(dx,dy);
+    if(d<180){
+      cx.beginPath();
+      cx.moveTo(pts[i].x,pts[i].y);cx.lineTo(pts[j].x,pts[j].y);
+      cx.strokeStyle=`rgba(${pts[i].col},${(1-d/180)*.1})`;
+      cx.lineWidth=.5;cx.stroke();
+    }
+  }
 
-        document.addEventListener('touchend', () => {
-            clearTimeout(longPressTimer);
-        });
+  pts.forEach(p=>{
+    cx.beginPath();cx.arc(p.x,p.y,p.r,0,Math.PI*2);
+    cx.fillStyle=`rgba(${p.col},.5)`;cx.fill();
+  });
 
-        document.addEventListener('DOMContentLoaded', () => {
-            createStars();
-            
-            document.body.style.opacity = '0';
-            setTimeout(() => {
-                document.body.style.transition = 'opacity 1.2s ease';
-                document.body.style.opacity = '1';
-            }, 100);
-        });
+  sparks.forEach(s=>{
+    s.x+=s.vx;s.y+=s.vy;s.life+=s.ml;
+    if(s.life>1||s.x<0||s.x>W||s.y<0||s.y>H){
+      s.x=Math.random()*W;s.y=Math.random()*H;s.life=0;
+    }
+    const a=Math.sin(s.life*Math.PI)*.45;
+    cx.beginPath();cx.arc(s.x,s.y,s.r,0,Math.PI*2);
+    cx.fillStyle=`rgba(${s.col},${a})`;cx.fill();
+  });
 
-        let ticking = false;
-        window.addEventListener('scroll', () => {
-            if (!ticking) {
-                requestAnimationFrame(() => {
-                    ticking = false;
-                });
-                ticking = true;
-            }
-        });
-    </script>
+  requestAnimationFrame(frame);
+}
+requestAnimationFrame(frame);
+
+/* ─ HEX DECOR ─ */
+const hc=document.getElementById('hexes');
+for(let i=0;i<8;i++){
+  const h=document.createElement('div');h.className='hx';
+  const sz=60+Math.random()*100;
+  h.style.cssText=`width:${sz}px;height:${sz*1.15}px;left:${Math.random()*100}%;top:${Math.random()*100}%;animation-delay:${Math.random()*7}s;transform:scale(${.7+Math.random()})`;
+  hc.appendChild(h);
+}
+
+/* ─ PANEL LOGIC ─ */
+const PANEL_TITLES={
+  ar:{android:'تطبيقات الأندرويد',ios:'تطبيقات الآيفون'},
+  en:{android:'Android Apps',ios:'iPhone Apps'},
+  es:{android:'Apps Android',ios:'Apps iPhone'},
+  fr:{android:'Apps Android',ios:'Apps iPhone'}
+};
+let curLang='ar',curPlat='android';
+
+function openPanel(plat){
+  curPlat=plat;
+  document.getElementById('aCards').classList.toggle('hidden',plat!=='android');
+  document.getElementById('iCards').classList.toggle('hidden',plat!=='ios');
+  document.getElementById('panelTitle').textContent=PANEL_TITLES[curLang][plat];
+  const p=document.getElementById('dlPanel');
+  p.classList.add('show');
+  p.scrollIntoView({behavior:'smooth',block:'start'});
+}
+function closePanel(){
+  document.getElementById('dlPanel').classList.remove('show');
+  document.querySelector('.hero').scrollIntoView({behavior:'smooth'});
+}
+
+/* ─ DOWNLOAD ─ */
+function dl(key,e){
+  const url=LINKS[key];if(!url)return;
+  const a=document.createElement('a');a.href=url;a.target='_blank';
+  document.body.appendChild(a);a.click();document.body.removeChild(a);
+  const b=e.currentTarget;b.style.transform='scale(.95)';
+  setTimeout(()=>b.style.transform='',220);
+}
+
+/* ─ LANG ─ */
+const ALL_LANG_CLS=['lar','len','les','lfr','la'];
+function setL(l,btn){
+  curLang=l;
+  document.querySelectorAll('.lar,.len,.les,.lfr').forEach(el=>el.classList.add('hidden'));
+  const map={ar:'lar',en:'len',es:'les',fr:'lfr'};
+  document.querySelectorAll('.'+map[l]).forEach(el=>el.classList.remove('hidden'));
+  document.querySelectorAll('.lb').forEach(b=>b.classList.remove('on'));btn.classList.add('on');
+  document.documentElement.lang=l;document.documentElement.dir=l==='ar'?'rtl':'ltr';
+  if(document.getElementById('dlPanel').classList.contains('show')){
+    document.getElementById('panelTitle').textContent=PANEL_TITLES[l][curPlat];
+  }
+}
+
+/* ─ PROTECT ─ */
+document.addEventListener('contextmenu',e=>e.preventDefault());
+document.addEventListener('selectstart',e=>e.preventDefault());
+
+/* ─ FADE IN ─ */
+document.body.style.opacity='0';
+addEventListener('load',()=>{document.body.style.transition='opacity .9s ease';document.body.style.opacity='1'});
+</script>
+
 </body>
 </html>
